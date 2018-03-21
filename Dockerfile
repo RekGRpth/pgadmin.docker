@@ -2,7 +2,7 @@ FROM alpine
 
 MAINTAINER RekGRpth
 
-ENV PGADMIN_VERSION 2.1
+ENV PGADMIN_VERSION=2.1
 
 RUN apk add --no-cache \
         alpine-sdk \
@@ -26,18 +26,9 @@ RUN apk add --no-cache \
     && \
     find -name "*.pyc" -delete
 
-#RUN mkdir -p /data && \
-#    groupadd --system pgadmin && \
-#    useradd --system --gid pgadmin --home-dir /data --shell /sbin/nologin pgadmin && \
-#    mkdir -p /data/config /data/logs /data/storage /data/sessions /data/misc && \
-#    chown -R pgadmin:pgadmin /data
-
-ENV HOME /data \
-    LANG ru_RU.UTF-8 \
-    TZ   Asia/Yekaterinburg
-
-#ENV PGADMIN_DEFAULT_EMAIL container@pgadmin.org
-#ENV PGADMIN_DEFAULT_PASSWORD Conta1ner
+ENV HOME=/data \
+    LANG=ru_RU.UTF-8 \
+    TZ=Asia/Yekaterinburg
 
 ADD entrypoint.sh /
 RUN chmod +x /entrypoint.sh
@@ -46,5 +37,4 @@ ENTRYPOINT ["/entrypoint.sh"]
 VOLUME  /data
 WORKDIR /data
 
-#CMD [ "python3", "/usr/lib/python3.6/site-packages/pgadmin4/pgAdmin4.py" ]
 CMD [ "uwsgi", "--ini", "/data/uwsgi.ini" ]
