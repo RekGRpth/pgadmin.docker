@@ -21,7 +21,7 @@ sed -i "s|'/var/lib/pgadmin'|'$HOME'|gi" "/usr/lib/python3.6/site-packages/pgadm
 sed -i "s|'/var/log/pgadmin/pgadmin4.log'|'$HOME/log/pgadmin4.log'|gi" "/usr/lib/python3.6/site-packages/pgadmin4/config.py"
 sed -i "/^UPGRADE_CHECK_ENABLED/cUPGRADE_CHECK_ENABLED = False" "/usr/lib/python3.6/site-packages/pgadmin4/config.py"
 test -f "/usr/lib/python3.6/site-packages/pgadmin4/pgAdmin4.wsgi" && mv -f "/usr/lib/python3.6/site-packages/pgadmin4/pgAdmin4.wsgi" "/usr/lib/python3.6/site-packages/pgadmin4/pgAdmin4wsgi.py"
-#mount -o remount,ro,bind "/usr/lib/python3.6/site-packages/pgadmin4" "$HOME/pgadmin"
+mount --bind "/usr/lib/python3.6/site-packages/pgadmin4" "$HOME/pgadmin"
 
 export PGADMIN_SETUP_EMAIL=container@pgadmin.org
 export PGADMIN_SETUP_PASSWORD=Conta1ner
