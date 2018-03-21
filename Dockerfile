@@ -26,7 +26,8 @@ RUN apk add --no-cache \
 
 ENV HOME=/data \
     LANG=ru_RU.UTF-8 \
-    TZ=Asia/Yekaterinburg
+    TZ=Asia/Yekaterinburg \
+    PGADMIN_PORT=5050
 
 ADD entrypoint.sh /
 RUN chmod +x /entrypoint.sh

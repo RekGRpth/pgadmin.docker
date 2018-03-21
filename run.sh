@@ -8,7 +8,6 @@ docker pull rekgrpth/pgadmin && \
 docker volume create pgadmin && \
 docker run \
     --add-host `hostname -f`:`ip -4 addr show docker0 | grep -oP 'inet \K[\d.]+'` \
-    --cap-add=SYS_ADMIN \
     --detach \
     --env GROUP_ID=$(id -g) \
     --env USER_ID=$(id -u) \
@@ -17,3 +16,4 @@ docker run \
     --publish 4324:4324 \
     --volume pgadmin:/data \
     rekgrpth/pgadmin
+#    --cap-add=SYS_ADMIN \
