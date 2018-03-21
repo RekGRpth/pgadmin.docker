@@ -15,16 +15,14 @@ RUN apk add --no-cache \
         su-exec \
         tzdata \
         uwsgi-python3 \
-    && \
-    cp /usr/bin/psql /usr/bin/pg_dump /usr/bin/pg_dumpall /usr/bin/pg_restore /usr/local/bin/ && \
-    pip3 install --no-cache-dir https://ftp.postgresql.org/pub/pgadmin/pgadmin4/v${PGADMIN_VERSION}/pip/pgadmin4-${PGADMIN_VERSION}-py2.py3-none-any.whl && \
-    apk del \
+    && cp /usr/bin/psql /usr/bin/pg_dump /usr/bin/pg_dumpall /usr/bin/pg_restore /usr/local/bin/ \
+    && pip3 install --no-cache-dir https://ftp.postgresql.org/pub/pgadmin/pgadmin4/v${PGADMIN_VERSION}/pip/pgadmin4-${PGADMIN_VERSION}-py2.py3-none-any.whl \
+    && apk del \
         alpine-sdk \
         postgresql \
         postgresql-dev \
         python3-dev \
-    && \
-    find -name "*.pyc" -delete
+    && find -name "*.pyc" -delete
 
 ENV HOME=/data \
     LANG=ru_RU.UTF-8 \
