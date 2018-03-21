@@ -32,9 +32,9 @@ RUN apk add --no-cache \
 #    mkdir -p /data/config /data/logs /data/storage /data/sessions /data/misc && \
 #    chown -R pgadmin:pgadmin /data
 
-ENV HOME /data
-ENV LANG ru_RU.UTF-8
-ENV TZ   Asia/Yekaterinburg
+ENV HOME /data \
+    LANG ru_RU.UTF-8 \
+    TZ   Asia/Yekaterinburg
 
 #ENV PGADMIN_DEFAULT_EMAIL container@pgadmin.org
 #ENV PGADMIN_DEFAULT_PASSWORD Conta1ner
