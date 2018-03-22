@@ -20,7 +20,7 @@ sed -i "s|'/var/log/pgadmin/pgadmin4.log'|'$HOME/log/pgadmin4.log'|gi" "$PGADMIN
 sed -i "/^DEFAULT_SERVER/cDEFAULT_SERVER = '0.0.0.0'" "$PGADMIN/config.py"
 
 test -f "$PGADMIN/pgAdmin4.wsgi" && mv -f "$PGADMIN/pgAdmin4.wsgi" "$PGADMIN/pgAdmin4wsgi.py"
-cp -rf $PGADMIN/* "$HOME/app"
+cp -rf "$PGADMIN"/* "$HOME/app"
 
 if [ ! -f "$HOME/pgadmin4.db" ]; then
 #    export PGADMIN_SETUP_EMAIL=container@pgadmin.org
