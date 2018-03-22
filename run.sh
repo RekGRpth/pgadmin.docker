@@ -13,7 +13,6 @@ docker run \
     --env USER_ID=$(id -u) \
     --hostname pgadmin \
     --name pgadmin \
-    --publish 4324:4324 \
+    --publish 5050:5050 \
     --volume pgadmin:/data \
     rekgrpth/pgadmin
-#    --cap-add=SYS_ADMIN \
