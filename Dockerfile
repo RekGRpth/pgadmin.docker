@@ -36,7 +36,7 @@ ENV HOME=/data \
 RUN mkdir -p "${HOME}" \
     && groupadd --system "${GROUP}" \
     && useradd --system --gid "${GROUP}" --home-dir "${HOME}" --shell /sbin/nologin "${USER}" \
-    && chown -R "${USER}":pgadmin "${HOME}"
+    && chown -R "${USER}":"${GROUP}" "${HOME}"
 
 ADD entrypoint.sh /
 RUN chmod +x /entrypoint.sh && usermod --home "${HOME}" "${USER}"
