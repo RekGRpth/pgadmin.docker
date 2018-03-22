@@ -14,7 +14,6 @@ RUN apk add --no-cache \
         shadow \
         su-exec \
         tzdata \
-#        uwsgi-python3 \
     && cp /usr/bin/psql /usr/bin/pg_dump /usr/bin/pg_dumpall /usr/bin/pg_restore /usr/local/bin/ \
     && pip3 install --no-cache-dir "https://ftp.postgresql.org/pub/pgadmin/pgadmin4/v${PGADMIN_VERSION}/pip/pgadmin4-${PGADMIN_VERSION}-py2.py3-none-any.whl" \
     && apk del \
@@ -33,10 +32,12 @@ ENV HOME=/data \
     PGADMIN_SETUP_EMAIL=container@pgadmin.org \
     PGADMIN_SETUP_PASSWORD=Conta1ner
 
-RUN mkdir -p "${HOME}" \
+RUN mkdir -p "${HOME}" "${HOME}/config" "${HOME}/storage" "${HOME}/log" "${HOME}/app" "${HOME}/sessions" \
     && groupadd --system "${GROUP}" \
     && useradd --system --gid "${GROUP}" --home-dir "${HOME}" --shell /sbin/nologin "${USER}" \
     && chown -R "${USER}":"${GROUP}" "${HOME}"
+
+COPY config_local.py /usr/lib/python3.6/site-packages/pgadmin4/
 
 ADD entrypoint.sh /
 RUN chmod +x /entrypoint.sh && usermod --home "${HOME}" "${USER}"
