@@ -23,8 +23,8 @@ test -f "$PGADMIN/pgAdmin4.wsgi" && mv -f "$PGADMIN/pgAdmin4.wsgi" "$PGADMIN/pgA
 cp -rf $PGADMIN/* "$HOME/app"
 
 if [ ! -f "$HOME/pgadmin4.db" ]; then
-    export PGADMIN_SETUP_EMAIL=container@pgadmin.org
-    export PGADMIN_SETUP_PASSWORD=Conta1ner
+#    export PGADMIN_SETUP_EMAIL=container@pgadmin.org
+#    export PGADMIN_SETUP_PASSWORD=Conta1ner
     python3 "$HOME/app/setup.py"
 fi
 
