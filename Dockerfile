@@ -27,13 +27,15 @@ RUN apk add --no-cache \
 ENV HOME=/data \
     LANG=ru_RU.UTF-8 \
     TZ=Asia/Yekaterinburg \
+    USER=uwsgi \
+    GROUP=uwsgi \
     PGADMIN_PORT=5050
 
 ADD entrypoint.sh /
-RUN chmod +x /entrypoint.sh
+RUN chmod +x /entrypoint.sh && usermod --home ${HOME} ${USER}
 ENTRYPOINT ["/entrypoint.sh"]
 
-VOLUME  /data
-WORKDIR /data
+VOLUME  ${HOME}
+WORKDIR ${HOME}/pgadmin
 
 CMD [ "uwsgi", "--ini", "/data/uwsgi.ini" ]
