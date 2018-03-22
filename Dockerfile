@@ -36,6 +36,6 @@ RUN chmod +x /entrypoint.sh && usermod --home ${HOME} ${USER}
 ENTRYPOINT ["/entrypoint.sh"]
 
 VOLUME  ${HOME}
-WORKDIR ${HOME}/pgadmin
+WORKDIR ${HOME}/app
 
 CMD [ "uwsgi", "--ini", "/data/uwsgi.ini" ]
