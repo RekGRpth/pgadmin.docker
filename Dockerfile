@@ -28,6 +28,7 @@ ENV HOME=/data \
     TZ=Asia/Yekaterinburg \
     USER=pgadmin \
     GROUP=pgadmin \
+    PYTHONIOENCODING=UTF-8 \
     PGADMIN_PORT=5050 \
     PGADMIN_SETUP_EMAIL=container@pgadmin.org \
     PGADMIN_SETUP_PASSWORD=Conta1ner
