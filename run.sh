@@ -1,11 +1,11 @@
 #!/bin/sh
 
-#docker build --tag rekgrpth/pgadmin . && \
-#docker push rekgrpth/pgadmin && \
+#docker build --tag rekgrpth/pgadmin . || exit $?
+#docker push rekgrpth/pgadmin || exit $?
 docker stop pgadmin
 docker rm pgadmin
-docker pull rekgrpth/pgadmin && \
-docker volume create pgadmin && \
+docker pull rekgrpth/pgadmin || exit $?
+docker volume create pgadmin || exit $?
 docker run \
     --add-host `hostname -f`:`ip -4 addr show docker0 | grep -oP 'inet \K[\d.]+'` \
     --detach \
