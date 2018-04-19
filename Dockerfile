@@ -2,7 +2,7 @@ FROM alpine
 
 MAINTAINER RekGRpth
 
-ENV PGADMIN_VERSION=2.1
+ENV PGADMIN_VERSION=3.0
 
 RUN apk add --no-cache \
         alpine-sdk \
