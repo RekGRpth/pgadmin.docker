@@ -34,6 +34,9 @@ RUN apk add --no-cache \
         tzdata \
     && apk add --no-cache --repository http://dl-cdn.alpinelinux.org/alpine/edge/testing \
         py3-blinker \
+        py3-flask-login \
+        py3-flask-sqlalchemy \
+        py3-flask-wtf \
     && cp /usr/bin/psql /usr/bin/pg_dump /usr/bin/pg_dumpall /usr/bin/pg_restore /usr/local/bin/ \
     && pip3 install --no-cache-dir --upgrade pip \
     && pip3 install --no-cache-dir "https://ftp.postgresql.org/pub/pgadmin/pgadmin4/v${PGADMIN_VERSION}/pip/pgadmin4-${PGADMIN_VERSION}-py2.py3-none-any.whl" \
