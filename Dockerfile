@@ -49,4 +49,4 @@ WORKDIR ${HOME}/app
 
 ENTRYPOINT ["/entrypoint.sh"]
 
-CMD [ "python3", "pgAdmin4.py" ]
+CMD [ "python", "pgAdmin4.py" ]
