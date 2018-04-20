@@ -37,7 +37,8 @@ RUN apk add --no-cache \
     && groupadd --system "${GROUP}" \
     && useradd --system --gid "${GROUP}" --home-dir "${HOME}" --shell /sbin/nologin "${USER}" \
     && chown -R "${USER}":"${GROUP}" "${HOME}" \
-    && chmod +x /entrypoint.sh && usermod --home "${HOME}" "${USER}"
+    && chmod +x /entrypoint.sh \
+    && usermod --home "${HOME}" "${USER}"
 
 COPY config_local.py /usr/lib/python3.6/site-packages/pgadmin4/
 
