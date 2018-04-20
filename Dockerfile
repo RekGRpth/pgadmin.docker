@@ -33,6 +33,7 @@ RUN apk add --no-cache \
         postgresql-dev \
         python3-dev \
     && find -name "*.pyc" -delete \
+    && ln -fs python3 /usr/bin/python \
     && mkdir -p "${HOME}" "${HOME}/config" "${HOME}/storage" "${HOME}/log" "${HOME}/app" "${HOME}/sessions" \
     && groupadd --system "${GROUP}" \
     && useradd --system --gid "${GROUP}" --home-dir "${HOME}" --shell /sbin/nologin "${USER}" \
