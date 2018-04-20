@@ -17,19 +17,17 @@ ENV HOME=/data \
 
 RUN apk add --no-cache \
         alpine-sdk \
-        postgresql \
         postgresql-dev \
+        postgresql-client \
         py3-psycopg2 \
         python3 \
         python3-dev \
         shadow \
         su-exec \
         tzdata \
-    && cp /usr/bin/psql /usr/bin/pg_dump /usr/bin/pg_dumpall /usr/bin/pg_restore /usr/local/bin/ \
     && pip3 install --no-cache-dir "https://ftp.postgresql.org/pub/pgadmin/pgadmin4/v${PGADMIN_VERSION}/pip/pgadmin4-${PGADMIN_VERSION}-py2.py3-none-any.whl" \
     && apk del \
         alpine-sdk \
-        postgresql \
         postgresql-dev \
         python3-dev \
     && find -name "*.pyc" -delete \
