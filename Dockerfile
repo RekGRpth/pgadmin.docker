@@ -4,26 +4,36 @@ MAINTAINER RekGRpth
 
 ENV PGADMIN_VERSION=3.0
 
-RUN apk add --no-cache \
+RUN apk add --no-cache --repository http://dl-cdn.alpinelinux.org/alpine/edge/testing \
         alpine-sdk \
         postgresql \
         postgresql-dev \
         py3-argparse \
         py3-babel \
+        py3-blinker \
         py3-click \
         py3-crypto \
         py3-dateutil \
+        py3-extras \
+        py3-fixtures \
         py3-flask \
+        py3-flask-login \
+        py3-flask-sqlalchemy \
+        py3-flask-wtf \
         py3-itsdangerous \
         py3-jinja2 \
         py3-mako \
         py3-markupsafe \
+        py3-passlib \
         py3-pbr \
         py3-psycopg2 \
+#        py3-pycryptodome \
         py3-simplejson \
         py3-six \
         py3-sqlalchemy \
         py3-sqlparse \
+        py3-testtools \
+        py3-traceback2 \
         py3-tz \
         py3-werkzeug \
         py3-wtforms \
@@ -32,11 +42,6 @@ RUN apk add --no-cache \
         shadow \
         su-exec \
         tzdata \
-    && apk add --no-cache --repository http://dl-cdn.alpinelinux.org/alpine/edge/testing \
-        py3-blinker \
-        py3-flask-login \
-        py3-flask-sqlalchemy \
-        py3-flask-wtf \
     && cp /usr/bin/psql /usr/bin/pg_dump /usr/bin/pg_dumpall /usr/bin/pg_restore /usr/local/bin/ \
     && pip3 install --no-cache-dir --upgrade pip \
     && pip3 install --no-cache-dir "https://ftp.postgresql.org/pub/pgadmin/pgadmin4/v${PGADMIN_VERSION}/pip/pgadmin4-${PGADMIN_VERSION}-py2.py3-none-any.whl" \
