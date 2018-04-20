@@ -2,7 +2,18 @@ FROM alpine
 
 MAINTAINER RekGRpth
 
-ENV PGADMIN_VERSION=3.0
+ADD entrypoint.sh /
+
+ENV HOME=/data \
+    LANG=ru_RU.UTF-8 \
+    TZ=Asia/Yekaterinburg \
+    USER=pgadmin \
+    GROUP=pgadmin \
+    PYTHONIOENCODING=UTF-8 \
+    PGADMIN_PORT=5050 \
+    PGADMIN_SETUP_EMAIL=container@pgadmin.org \
+    PGADMIN_SETUP_PASSWORD=Conta1ner \
+    PGADMIN_VERSION=3.0
 
 RUN apk add --no-cache \
         alpine-sdk \
@@ -21,30 +32,19 @@ RUN apk add --no-cache \
         postgresql \
         postgresql-dev \
         python3-dev \
-    && find -name "*.pyc" -delete
-
-ENV HOME=/data \
-    LANG=ru_RU.UTF-8 \
-    TZ=Asia/Yekaterinburg \
-    USER=pgadmin \
-    GROUP=pgadmin \
-    PYTHONIOENCODING=UTF-8 \
-    PGADMIN_PORT=5050 \
-    PGADMIN_SETUP_EMAIL=container@pgadmin.org \
-    PGADMIN_SETUP_PASSWORD=Conta1ner
-
-RUN mkdir -p "${HOME}" "${HOME}/config" "${HOME}/storage" "${HOME}/log" "${HOME}/app" "${HOME}/sessions" \
+    && find -name "*.pyc" -delete \
+    && mkdir -p "${HOME}" "${HOME}/config" "${HOME}/storage" "${HOME}/log" "${HOME}/app" "${HOME}/sessions" \
     && groupadd --system "${GROUP}" \
     && useradd --system --gid "${GROUP}" --home-dir "${HOME}" --shell /sbin/nologin "${USER}" \
-    && chown -R "${USER}":"${GROUP}" "${HOME}"
+    && chown -R "${USER}":"${GROUP}" "${HOME}" \
+    && chmod +x /entrypoint.sh && usermod --home "${HOME}" "${USER}"
 
 COPY config_local.py /usr/lib/python3.6/site-packages/pgadmin4/
 
-ADD entrypoint.sh /
-RUN chmod +x /entrypoint.sh && usermod --home "${HOME}" "${USER}"
-ENTRYPOINT ["/entrypoint.sh"]
-
 VOLUME  ${HOME}
+
 WORKDIR ${HOME}/app
+
+ENTRYPOINT ["/entrypoint.sh"]
 
 CMD [ "python3", "pgAdmin4.py" ]
