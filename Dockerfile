@@ -17,6 +17,7 @@ ENV HOME=/data \
 
 RUN apk add --no-cache \
         alpine-sdk \
+        libffi-dev \
         postgresql-dev \
         postgresql-client \
         py3-psycopg2 \
@@ -29,6 +30,7 @@ RUN apk add --no-cache \
     && pip3 install --no-cache-dir "https://ftp.postgresql.org/pub/pgadmin/pgadmin4/v${PGADMIN_VERSION}/pip/pgadmin4-${PGADMIN_VERSION}-py2.py3-none-any.whl" \
     && apk del \
         alpine-sdk \
+        libffi-dev \
         postgresql-dev \
         python3-dev \
     && find -name "*.pyc" -delete \
