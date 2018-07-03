@@ -25,6 +25,7 @@ RUN apk add --no-cache \
         shadow \
         su-exec \
         tzdata \
+    && pip3 install --upgrade pip
     && pip3 install --no-cache-dir "https://ftp.postgresql.org/pub/pgadmin/pgadmin4/v${PGADMIN_VERSION}/pip/pgadmin4-${PGADMIN_VERSION}-py2.py3-none-any.whl" \
     && apk del \
         alpine-sdk \
