@@ -1,4 +1,4 @@
-FROM alpine
+FROM alpine:3.8
 
 MAINTAINER RekGRpth
 
@@ -13,7 +13,7 @@ ENV HOME=/data \
     PGADMIN_PORT=5050 \
     PGADMIN_SETUP_EMAIL=container@pgadmin.org \
     PGADMIN_SETUP_PASSWORD=Conta1ner \
-    PGADMIN_VERSION=3.0
+    PGADMIN_VERSION=3.1
 
 RUN apk add --no-cache \
         alpine-sdk \
