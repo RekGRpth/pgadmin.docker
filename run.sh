@@ -12,6 +12,7 @@ docker run \
     --env GROUP_ID=$(id -g) \
     --env USER_ID=$(id -u) \
     --hostname pgadmin \
+    --link postgres \
     --name pgadmin \
     --publish 5050:5050 \
     --restart always \
