@@ -14,7 +14,6 @@ docker run \
     --hostname pgadmin \
     --link postgres \
     --name pgadmin \
-    --publish 5050:5050 \
     --restart always \
     --volume pgadmin:/data \
     rekgrpth/pgadmin
