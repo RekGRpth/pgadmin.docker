@@ -30,7 +30,7 @@ RUN apk add --no-cache \
     && pip3 install --no-cache-dir "https://ftp.postgresql.org/pub/pgadmin/pgadmin4/v${PGADMIN_VERSION}/pip/pgadmin4-${PGADMIN_VERSION}-py2.py3-none-any.whl" \
     && pip3 install --no-cache-dir \
         pipdate \
-    && pipdate \
+    && (pipdate || true) \
     && apk del \
         alpine-sdk \
         libffi-dev \
