@@ -18,17 +18,12 @@ ENV GROUP=pgadmin \
 RUN addgroup -S "${GROUP}" \
     && adduser -D -S -h "${HOME}" -s /sbin/nologin -G "${GROUP}" ${USER} \
     && apk add --no-cache \
-#        libldap \
         shadow \
-#        sshpass \
         su-exec \
-#        ttf-dejavu \
         tzdata \
-#        unixodbc-dev \
     && apk add --no-cache --virtual .build-deps \
         bzip2-dev \
         coreutils \
-#        curl \
         dpkg-dev dpkg \
         expat-dev \
         findutils \
@@ -45,7 +40,6 @@ RUN addgroup -S "${GROUP}" \
         linux-headers \
         make \
         ncurses-dev \
-#        openldap-dev \
         pax-utils \
         postgresql-dev \
         readline-dev \
@@ -57,8 +51,7 @@ RUN addgroup -S "${GROUP}" \
         xz-dev \
         zlib-dev \
     && mkdir -p /usr/src \
-    && git clone --progress https://github.com/python/cpython.git /usr/src/python \
-#    && git clone --progress https://github.com/postgres/pgadmin4.git /usr/src/pgadmin \
+    && git clone --progress --recursive https://github.com/python/cpython.git /usr/src/python \
     && cd /usr/src/python \
     && ./configure \
         --enable-loadable-sqlite-extensions \
@@ -76,35 +69,7 @@ RUN addgroup -S "${GROUP}" \
     && ln -s python3-config python-config \
     && pip install --no-cache-dir --upgrade pip \
     && pip install --no-cache-dir \
-#        captcha \
-#        decorator \
-#        httplib2 \
-#        jwt \
-#        ldap \
-#        ldap3 \
-#        olefile \
-#        pexpect \
-#        pillow \
         pipdate \
-#        psycopg2 \
-#        ptyprocess \
-#        pygments \
-#        pyldap \
-#        pyOpenSSL \
-#        pypdf2 \
-#        python-dateutil \
-#        reportlab \
-#        requests \
-#        sh \
-#        six \
-#        suds2 \
-#        tornado \
-#        uwsgi \
-#        wcwidth \
-#        xhtml2pdf \
-#    && pip install --no-cache-dir "git+https://github.com/postgres/pgadmin4" \
-#    && cd /usr/src/pgadmin \
-#    && make runtime \
     && pip install --no-cache-dir "https://ftp.postgresql.org/pub/pgadmin/pgadmin4/v${PGADMIN_VERSION}/pip/pgadmin4-${PGADMIN_VERSION}-py2.py3-none-any.whl" \
     && (pipdate || true) \
     && pip install --no-cache-dir \
@@ -118,8 +83,6 @@ RUN addgroup -S "${GROUP}" \
     && find /usr/local -depth \
         \( \
             \( -type d -a \( -name test -o -name tests \) \) \
-#            -o \
-#            \( -type f -a \( -name '*.pyc' -o -name '*.pyo' \) \) \
         \) -exec rm -rf '{}' + \
     && cd / \
     && rm -rf /usr/src /usr/local/include \
@@ -127,19 +90,6 @@ RUN addgroup -S "${GROUP}" \
     && find -name "*.pyo" -delete \
     && find -name "*.whl" -delete \
     && chmod +x /entrypoint.sh
-#    && usermod --home "${HOME}" "${USER}" \
-#    && sh /font.sh \
-#    && rm -f /font.sh \
-#    && echo "[unix_http_server]" >> /etc/supervisord.conf \
-#    && echo "file=/tmp/supervisord.sock" >> /etc/supervisord.conf \
-#    && echo "[supervisord]" >> /etc/supervisord.conf \
-#    && echo "nodaemon=true" >> /etc/supervisord.conf \
-#    && echo "[rpcinterface:supervisor]" >> /etc/supervisord.conf \
-#    && echo "supervisor.rpcinterface_factory = supervisor.rpcinterface:make_main_rpcinterface" >> /etc/supervisord.conf \
-#    && echo "[supervisorctl]" >> /etc/supervisord.conf \
-#    && echo "serverurl=unix:///tmp/supervisord.sock" >> /etc/supervisord.conf \
-#    && echo "[include]" >> /etc/supervisord.conf \
-#    && echo "files = ${HOME}/app/applications/*/supervisor/*.conf" >> /etc/supervisord.conf
 
 COPY config_local.py /usr/local/lib/python3.8/site-packages/pgadmin4/
 
