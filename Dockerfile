@@ -49,6 +49,8 @@ RUN addgroup -S "${GROUP}" \
         xz-dev \
         zlib-dev \
     && pip install --no-cache-dir "https://ftp.postgresql.org/pub/pgadmin/pgadmin4/v${PGADMIN_VERSION}/pip/pgadmin4-${PGADMIN_VERSION}-py2.py3-none-any.whl" \
+    && sed -i "s|import cgi|try: from html import escape\nexcept ImportError: from cgi import escape|g" /usr/local/lib/python3.8/site-packages/pgadmin4/pgadmin/utils/html.py \
+    && sed -i "s|return cgi\.escape|return escape|g" /usr/local/lib/python3.8/site-packages/pgadmin4/pgadmin/utils/html.py \
     && (pipdate || true) \
     && pip install --no-cache-dir \
         ipython \
