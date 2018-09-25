@@ -1,6 +1,6 @@
 #!/bin/sh
 
-python3 -m compileall /usr/lib -r 100
+python -m compileall /usr/lib -r 100
 
 if [ "$GROUP_ID" = "" ]; then GROUP_ID=$(id -g "$GROUP"); fi
 if [ "$GROUP_ID" != "$(id -g "$GROUP")" ]; then
@@ -17,7 +17,7 @@ fi
 cp -rf /usr/lib/python3.6/site-packages/pgadmin4/* "$HOME/app"
 
 if [ ! -f "$HOME/config/pgadmin4.db" ]; then
-    python3 "$HOME/app/setup.py"
+    python "$HOME/app/setup.py"
 fi
 
 find "$HOME" ! -group "$GROUP" -exec chgrp "$GROUP_ID" {} \;
