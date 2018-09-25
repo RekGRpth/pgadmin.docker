@@ -1,71 +1,50 @@
-FROM rekgrpth/python
+FROM alpine
+
+MAINTAINER RekGRpth
 
 ADD entrypoint.sh /
 
-ENV GROUP=pgadmin \
-    HOME=/data \
+ENV HOME=/data \
     LANG=ru_RU.UTF-8 \
+    TZ=Asia/Yekaterinburg \
+    USER=pgadmin \
+    GROUP=pgadmin \
+    PYTHONIOENCODING=UTF-8 \
     PGADMIN_PORT=5050 \
     PGADMIN_SETUP_EMAIL=container@pgadmin.org \
     PGADMIN_SETUP_PASSWORD=Conta1ner \
-    PGADMIN_VERSION=3.3 \
-    PYTHONIOENCODING=UTF-8 \
-    TZ=Asia/Yekaterinburg \
-    USER=pgadmin
+    PGADMIN_VERSION=3.3
 
-RUN addgroup -S "${GROUP}" \
-    && adduser -D -S -h "${HOME}" -s /sbin/nologin -G "${GROUP}" ${USER} \
-    && apk add --no-cache \
+RUN apk add --no-cache \
+        alpine-sdk \
+        libffi-dev \
+        postgresql-dev \
         postgresql-client \
+        py3-psycopg2 \
+        python3 \
+        python3-dev \
         shadow \
         su-exec \
         tzdata \
-    && apk add --no-cache --virtual .build-deps \
-        bzip2-dev \
-        coreutils \
-        dpkg-dev dpkg \
-        expat-dev \
-        findutils \
-        freetype-dev \
-        gcc \
-        gdbm-dev \
-        jpeg-dev \
-        libc-dev \
-        libffi-dev \
-        libnsl-dev \
-        libressl-dev \
-        libtirpc-dev \
-        linux-headers \
-        make \
-        ncurses-dev \
-        pax-utils \
-        postgresql-dev \
-        readline-dev \
-        sqlite-dev \
-        tcl-dev \
-        tk \
-        tk-dev \
-        util-linux-dev \
-        xz-dev \
-        zlib-dev \
-    && pip install --no-cache-dir "https://ftp.postgresql.org/pub/pgadmin/pgadmin4/v${PGADMIN_VERSION}/pip/pgadmin4-${PGADMIN_VERSION}-py2.py3-none-any.whl" \
-    && sed -i "s|import cgi|try: from html import escape\nexcept ImportError: from cgi import escape|g" /usr/local/lib/python3.8/site-packages/pgadmin4/pgadmin/utils/html.py \
-    && sed -i "s|return cgi\.escape|return escape|g" /usr/local/lib/python3.8/site-packages/pgadmin4/pgadmin/utils/html.py \
+    && pip3 install --upgrade pip \
+    && pip3 install --no-cache-dir "https://ftp.postgresql.org/pub/pgadmin/pgadmin4/v${PGADMIN_VERSION}/pip/pgadmin4-${PGADMIN_VERSION}-py2.py3-none-any.whl" \
+    && pip3 install --no-cache-dir \
+        pipdate \
     && (pipdate || true) \
-    && pip install --no-cache-dir \
-        ipython \
-    && find /usr/local -type f -executable -not \( -name '*tkinter*' \) -exec scanelf --needed --nobanner --format '%n#p' '{}' ';' \
-        | tr ',' '\n' \
-        | sort -u \
-        | awk 'system("[ -e /usr/local/lib/" $1 " ]") == 0 { next } { print "so:" $1 }' \
-        | xargs -rt apk add --no-cache --virtual .python-rundeps \
-    && apk del .build-deps \
+    && apk del \
+        alpine-sdk \
+        libffi-dev \
+        postgresql-dev \
+        python3-dev \
     && find -name "*.pyc" -delete \
-    && find -name "*.pyo" -delete \
-    && find -name "*.whl" -delete \
-    && chmod +x /entrypoint.sh
+    && mkdir -p "${HOME}" "${HOME}/config" "${HOME}/storage" "${HOME}/log" "${HOME}/app" "${HOME}/sessions" \
+    && groupadd --system "${GROUP}" \
+    && useradd --system --gid "${GROUP}" --home-dir "${HOME}" --shell /sbin/nologin "${USER}" \
+    && chown -R "${USER}":"${GROUP}" "${HOME}" \
+    && chmod +x /entrypoint.sh \
+    && usermod --home "${HOME}" "${USER}"
 
-COPY config_local.py /usr/local/lib/python3.8/site-packages/pgadmin4/
+COPY config_local.py /usr/lib/python3.6/site-packages/pgadmin4/
 
 VOLUME  ${HOME}
 
@@ -73,4 +52,4 @@ WORKDIR ${HOME}/app
 
 ENTRYPOINT ["/entrypoint.sh"]
 
-CMD [ "python", "pgAdmin4.py" ]
+CMD [ "python3", "pgAdmin4.py" ]
