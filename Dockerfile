@@ -31,7 +31,6 @@ RUN addgroup -S "${GROUP}" \
         freetype-dev \
         gcc \
         gdbm-dev \
-        git \
         jpeg-dev \
         libc-dev \
         libffi-dev \
