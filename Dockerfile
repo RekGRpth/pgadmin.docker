@@ -1,7 +1,5 @@
 FROM rekgrpth/python
 
-MAINTAINER RekGRpth
-
 ADD entrypoint.sh /
 
 ENV GROUP=pgadmin \
