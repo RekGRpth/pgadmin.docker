@@ -1,4 +1,4 @@
-FROM alpine
+FROM rekgrpth/python
 
 MAINTAINER RekGRpth
 
@@ -50,26 +50,6 @@ RUN addgroup -S "${GROUP}" \
         util-linux-dev \
         xz-dev \
         zlib-dev \
-    && mkdir -p /usr/src \
-    && git clone --progress --recursive https://github.com/python/cpython.git /usr/src/python \
-    && cd /usr/src/python \
-    && ./configure \
-        --enable-loadable-sqlite-extensions \
-        --enable-shared \
-        --with-ensurepip=upgrade \
-        --with-system-expat \
-        --with-system-ffi \
-    && make -j "$(nproc)" \
-    && make install \
-    && cd /usr/local/bin \
-    && ln -s idle3 idle \
-    && ln -s pip3 pip \
-    && ln -s pydoc3 pydoc \
-    && ln -s python3 python \
-    && ln -s python3-config python-config \
-    && pip install --no-cache-dir --upgrade pip \
-    && pip install --no-cache-dir \
-        pipdate \
     && pip install --no-cache-dir "https://ftp.postgresql.org/pub/pgadmin/pgadmin4/v${PGADMIN_VERSION}/pip/pgadmin4-${PGADMIN_VERSION}-py2.py3-none-any.whl" \
     && (pipdate || true) \
     && pip install --no-cache-dir \
@@ -80,12 +60,6 @@ RUN addgroup -S "${GROUP}" \
         | awk 'system("[ -e /usr/local/lib/" $1 " ]") == 0 { next } { print "so:" $1 }' \
         | xargs -rt apk add --no-cache --virtual .python-rundeps \
     && apk del .build-deps \
-    && find /usr/local -depth \
-        \( \
-            \( -type d -a \( -name test -o -name tests \) \) \
-        \) -exec rm -rf '{}' + \
-    && cd / \
-    && rm -rf /usr/src /usr/local/include \
     && find -name "*.pyc" -delete \
     && find -name "*.pyo" -delete \
     && find -name "*.whl" -delete \
