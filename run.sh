@@ -12,6 +12,7 @@ docker run \
     --env GROUP_ID=$(id -g) \
     --env USER_ID=$(id -u) \
     --hostname pgadmin \
+    --link nginx:$(hostname -f) \
     --name pgadmin \
     --network my \
     --restart always \
