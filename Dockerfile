@@ -18,6 +18,7 @@ ENV HOME=/data \
 RUN apk add --no-cache \
         alpine-sdk \
         libffi-dev \
+        linux-headers \
         postgresql-dev \
         postgresql-client \
         py3-psycopg2 \
@@ -34,6 +35,7 @@ RUN apk add --no-cache \
     && apk del \
         alpine-sdk \
         libffi-dev \
+        linux-headers \
         postgresql-dev \
         python3-dev \
     && find -name "*.pyc" -delete \
