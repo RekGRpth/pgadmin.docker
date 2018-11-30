@@ -13,7 +13,7 @@ ENV HOME=/data \
     PGADMIN_PORT=5050 \
     PGADMIN_SETUP_EMAIL=container@pgadmin.org \
     PGADMIN_SETUP_PASSWORD=Conta1ner \
-    PGADMIN_VERSION=3.5
+    PGADMIN_VERSION=3.6
 
 RUN apk add --no-cache \
         alpine-sdk \
