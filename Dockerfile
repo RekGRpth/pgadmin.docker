@@ -15,7 +15,12 @@ ENV HOME=/data \
     PGADMIN_SETUP_PASSWORD=Conta1ner \
     PGADMIN_VERSION=3.6
 
-RUN apk add --no-cache \
+RUN echo http://dl-cdn.alpinelinux.org/alpine/edge/main >> /etc/apk/repositories \
+    && echo http://dl-cdn.alpinelinux.org/alpine/edge/community >> /etc/apk/repositories \
+    && echo http://dl-cdn.alpinelinux.org/alpine/edge/testing >> /etc/apk/repositories \
+    && apk update --no-cache \
+    && apk upgrade --no-cache \
+    && apk add --no-cache \
         alpine-sdk \
         libffi-dev \
         linux-headers \
@@ -32,7 +37,7 @@ RUN apk add --no-cache \
     && pip3 install --no-cache-dir \
         pipdate \
     && (pipdate || true) \
-    && apk del \
+    && apk del --no-cache \
         alpine-sdk \
         libffi-dev \
         linux-headers \
