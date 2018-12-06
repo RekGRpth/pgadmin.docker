@@ -26,18 +26,9 @@ RUN addgroup -S "${GROUP}" \
         linux-headers \
         pcre-dev \
         postgresql-dev \
-#        postgresql-client \
-#        py3-psycopg2 \
-#        python3 \
-#        python3-dev \
-#        shadow \
-#        su-exec \
-#        tzdata \
-#    && pip install --upgrade pip \
     && pip install --no-cache-dir "https://ftp.postgresql.org/pub/pgadmin/pgadmin4/v${PGADMIN_VERSION}/pip/pgadmin4-${PGADMIN_VERSION}-py2.py3-none-any.whl" \
     && pip install --no-cache-dir \
         uwsgi \
-#    && (pipdate || true) \
     && runDeps="$( \
         scanelf --needed --nobanner --format '%n#p' --recursive /usr/local \
             | tr ',' '\n' \
@@ -47,7 +38,7 @@ RUN addgroup -S "${GROUP}" \
             | awk 'system("[ -e /usr/local/lib/" $1 " ]") == 0 { next } { print "so:" $1 }' \
     )" \
     && apk add --no-cache --virtual .pgadmin-rundeps \
-        $runDeps \
+        "$runDeps" \
         postgresql-client \
         shadow \
         su-exec \
@@ -56,13 +47,8 @@ RUN addgroup -S "${GROUP}" \
     && find -name "*.pyc" -delete \
     && find -name "*.pyo" -delete \
     && find -name "*.whl" -delete \
-#    && ln -fs python3 /usr/bin/python \
-#    && mkdir -p "${HOME}" "${HOME}/config" "${HOME}/storage" "${HOME}/log" "${HOME}/app" "${HOME}/sessions" \
-#    && groupadd --system "${GROUP}" \
-#    && useradd --system --gid "${GROUP}" --home-dir "${HOME}" --shell /sbin/nologin "${USER}" \
-#    && chown -R "${USER}":"${GROUP}" "${HOME}" \
-    && chmod +x /entrypoint.sh
-#    && usermod --home "${HOME}" "${USER}"
+    && chmod +x /entrypoint.sh \
+    && rm -rf /root/.cache
 
 COPY config_local.py /usr/local/lib/python3.7/site-packages/pgadmin4/
 
