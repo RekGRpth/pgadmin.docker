@@ -21,8 +21,10 @@ RUN addgroup -S "${GROUP}" \
     && apk upgrade --no-cache \
     && apk add --no-cache --virtual .pgadmin-build-deps \
         alpine-sdk \
+        gettext-dev \
         libffi-dev \
         linux-headers \
+        pcre-dev \
         postgresql-dev \
 #        postgresql-client \
 #        py3-psycopg2 \
@@ -33,8 +35,8 @@ RUN addgroup -S "${GROUP}" \
 #        tzdata \
 #    && pip install --upgrade pip \
     && pip install --no-cache-dir "https://ftp.postgresql.org/pub/pgadmin/pgadmin4/v${PGADMIN_VERSION}/pip/pgadmin4-${PGADMIN_VERSION}-py2.py3-none-any.whl" \
-#    && pip install --no-cache-dir \
-#        pipdate \
+    && pip install --no-cache-dir \
+        uwsgi \
 #    && (pipdate || true) \
     && runDeps="$( \
         scanelf --needed --nobanner --format '%n#p' --recursive /usr/local \
