@@ -38,7 +38,7 @@ RUN addgroup -S "${GROUP}" \
             | awk 'system("[ -e /usr/local/lib/" $1 " ]") == 0 { next } { print "so:" $1 }' \
     )" \
     && apk add --no-cache --virtual .pgadmin-rundeps \
-        "$runDeps" \
+        $runDeps \
         postgresql-client \
         shadow \
         su-exec \
