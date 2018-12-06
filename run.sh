@@ -4,7 +4,7 @@
 #docker push rekgrpth/pgadmin || exit $?
 docker stop pgadmin
 docker rm pgadmin
-docker pull rekgrpth/pgadmin || exit $?
+#docker pull rekgrpth/pgadmin || exit $?
 docker volume create pgadmin || exit $?
 docker network create my
 docker run \

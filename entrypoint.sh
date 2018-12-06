@@ -1,6 +1,6 @@
 #!/bin/sh
 
-python -m compileall /usr/lib -r 100
+python -m compileall /usr/local/lib -r 100
 
 if [ "$GROUP_ID" = "" ]; then GROUP_ID=$(id -g "$GROUP"); fi
 if [ "$GROUP_ID" != "$(id -g "$GROUP")" ]; then
@@ -14,7 +14,7 @@ if [ "$USER_ID" != "$(id -u "$USER")" ]; then
     usermod --uid "$USER_ID" "$USER"
 fi
 
-cp -rf /usr/lib/python3.6/site-packages/pgadmin4/* "$HOME/app"
+cp -rf /usr/local/lib/python3.7/site-packages/pgadmin4/* "$HOME/app"
 
 if [ ! -f "$HOME/config/pgadmin4.db" ]; then
     python "$HOME/app/setup.py"
