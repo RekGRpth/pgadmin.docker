@@ -1,4 +1,4 @@
-FROM alpine
+FROM rekgrpth/python
 
 MAINTAINER RekGRpth
 
@@ -17,9 +17,6 @@ ENV GROUP=pgadmin \
 
 RUN addgroup -S "${GROUP}" \
     && adduser -D -S -h "${HOME}" -s /sbin/nologin -G "${GROUP}" "${USER}" \
-    && echo http://dl-cdn.alpinelinux.org/alpine/edge/main >> /etc/apk/repositories \
-    && echo http://dl-cdn.alpinelinux.org/alpine/edge/community >> /etc/apk/repositories \
-    && echo http://dl-cdn.alpinelinux.org/alpine/edge/testing >> /etc/apk/repositories \
     && apk update --no-cache \
     && apk upgrade --no-cache \
     && apk add --no-cache --virtual .build-deps \
@@ -31,24 +28,16 @@ RUN addgroup -S "${GROUP}" \
         musl-dev \
         pcre-dev \
         postgresql-dev \
-        python3 \
-        python3-dev \
-    && cd /usr/bin \
-    && ln -s idle3 idle \
-    && ln -s pip3 pip \
-    && ln -s pydoc3 pydoc \
-    && ln -s python3 python \
-    && ln -s python3-config python-config \
-    && cd / \
     && pip install --no-cache-dir --upgrade pip \
     && pip install --no-cache-dir "https://ftp.postgresql.org/pub/pgadmin/pgadmin4/v${PGADMIN_VERSION}/pip/pgadmin4-${PGADMIN_VERSION}-py2.py3-none-any.whl" \
     && pip install --no-cache-dir \
         uwsgi \
     && apk add --no-cache --virtual .pgadmin-rundeps \
-        $( scanelf --needed --nobanner --format '%n#p' --recursive /usr/lib \
+        $( scanelf --needed --nobanner --format '%n#p' --recursive /usr/local \
             | tr ',' '\n' \
             | sort -u \
-            | awk 'system("[ -e /usr/lib" $1 " ]") == 0 { next } { print "so:" $1 }' \
+            | grep -v libpython \
+            | awk 'system("[ -e /usr/local/lib" $1 " ]") == 0 { next } { print "so:" $1 }' \
         ) \
         ca-certificates \
         postgresql-client \
@@ -62,7 +51,7 @@ RUN addgroup -S "${GROUP}" \
     && chmod +x /entrypoint.sh \
     && rm -rf /root/.cache
 
-COPY config_local.py /usr/lib/python3.6/site-packages/pgadmin4/
+COPY config_local.py /usr/local/lib/python3.7/site-packages/pgadmin4/
 
 VOLUME "${HOME}"
 
