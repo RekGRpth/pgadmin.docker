@@ -1,4 +1,4 @@
-FROM python:alpine
+FROM alpine
 
 MAINTAINER RekGRpth
 
@@ -22,43 +22,52 @@ RUN addgroup -S "${GROUP}" \
     && echo http://dl-cdn.alpinelinux.org/alpine/edge/testing >> /etc/apk/repositories \
     && apk update --no-cache \
     && apk upgrade --no-cache \
-    && apk add --no-cache --virtual .pgadmin-build-deps \
-        alpine-sdk \
+    && apk add --no-cache --virtual .build-deps \
+        gcc \
         gettext-dev \
         libffi-dev \
         linux-headers \
+        make \
+        musl-dev \
         pcre-dev \
         postgresql-dev \
+        python3 \
+        python3-dev \
+    && cd /usr/bin \
+    && ln -s idle3 idle \
+    && ln -s pip3 pip \
+    && ln -s pydoc3 pydoc \
+    && ln -s python3 python \
+    && ln -s python3-config python-config \
+    && cd / \
+    && pip install --no-cache-dir --upgrade pip \
     && pip install --no-cache-dir "https://ftp.postgresql.org/pub/pgadmin/pgadmin4/v${PGADMIN_VERSION}/pip/pgadmin4-${PGADMIN_VERSION}-py2.py3-none-any.whl" \
     && pip install --no-cache-dir \
         uwsgi \
-    && runDeps="$( \
-        scanelf --needed --nobanner --format '%n#p' --recursive /usr/local \
+    && apk add --no-cache --virtual .pgadmin-rundeps \
+        $( scanelf --needed --nobanner --format '%n#p' --recursive /usr/lib \
             | tr ',' '\n' \
             | sort -u \
-            | grep -v libtcl \
-            | grep -v libtk \
-            | awk 'system("[ -e /usr/local/lib/" $1 " ]") == 0 { next } { print "so:" $1 }' \
-    )" \
-    && apk add --no-cache --virtual .pgadmin-rundeps \
-        $runDeps \
+            | awk 'system("[ -e /usr/lib" $1 " ]") == 0 { next } { print "so:" $1 }' \
+        ) \
+        ca-certificates \
         postgresql-client \
         shadow \
         su-exec \
         tzdata \
-    && apk del --no-cache .pgadmin-build-deps \
+    && apk del --no-cache .build-deps \
     && find -name "*.pyc" -delete \
     && find -name "*.pyo" -delete \
     && find -name "*.whl" -delete \
     && chmod +x /entrypoint.sh \
     && rm -rf /root/.cache
 
-COPY config_local.py /usr/local/lib/python3.7/site-packages/pgadmin4/
+COPY config_local.py /usr/lib/python3.6/site-packages/pgadmin4/
 
-VOLUME  "${HOME}"
+VOLUME "${HOME}"
 
 WORKDIR "${HOME}/app"
 
-ENTRYPOINT ["/entrypoint.sh"]
+ENTRYPOINT [ "/entrypoint.sh" ]
 
 CMD [ "python", "pgAdmin4.py" ]
