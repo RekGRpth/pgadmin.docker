@@ -36,6 +36,7 @@ RUN addgroup -S "${GROUP}" \
         $( scanelf --needed --nobanner --format '%n#p' --recursive /usr/local \
             | tr ',' '\n' \
             | sort -u \
+            | grep -v libcrypto \
             | grep -v libpython \
             | grep -v libssl \
             | grep -v libtcl \
