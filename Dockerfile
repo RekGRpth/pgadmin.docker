@@ -56,4 +56,4 @@ WORKDIR "${HOME}/app"
 
 ENTRYPOINT [ "/entrypoint.sh" ]
 
-CMD [ "python", "pgAdmin4.py" ]
+CMD [ "uwsgi", "--ini", "/data/pgadmin.ini" ]
