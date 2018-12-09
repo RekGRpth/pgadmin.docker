@@ -17,8 +17,6 @@ ENV GROUP=pgadmin \
 
 RUN addgroup -S "${GROUP}" \
     && adduser -D -S -h "${HOME}" -s /sbin/nologin -G "${GROUP}" "${USER}" \
-    && apk update --no-cache \
-    && apk upgrade --no-cache \
     && apk add --no-cache --virtual .build-deps \
         gcc \
         gettext-dev \
@@ -36,12 +34,7 @@ RUN addgroup -S "${GROUP}" \
         $( scanelf --needed --nobanner --format '%n#p' --recursive /usr/local \
             | tr ',' '\n' \
             | sort -u \
-            | grep -v libcrypto \
-            | grep -v libpython \
-            | grep -v libssl \
-            | grep -v libtcl \
-            | grep -v libtk \
-            | awk 'system("[ -e /usr/local/lib" $1 " ]") == 0 { next } { print "so:" $1 }' \
+            | awk 'system("[ -e /usr/local/lib/" $1 " ]") == 0 { next } { print "so:" $1 }' \
         ) \
         ca-certificates \
         postgresql-client \
