@@ -12,6 +12,7 @@ ENV GROUP=uwsgi \
     PGADMIN_SETUP_PASSWORD=Conta1ner \
     PGADMIN_VERSION=3.6 \
     PYTHONIOENCODING=UTF-8 \
+    PYTHONPATH=/usr/local/lib/python3.7/site-packages/pgadmin4 \
     TZ=Asia/Yekaterinburg \
     USER=uwsgi
 
@@ -41,11 +42,7 @@ RUN addgroup -S "${GROUP}" \
         su-exec \
         tzdata \
     && apk del --no-cache .build-deps \
-    && find -name "*.pyc" -delete \
-    && find -name "*.pyo" -delete \
-    && find -name "*.whl" -delete \
-    && chmod +x /entrypoint.sh \
-    && rm -rf /root/.cache
+    && chmod +x /entrypoint.sh
 
 COPY config_local.py /usr/local/lib/python3.7/site-packages/pgadmin4/
 
