@@ -40,9 +40,9 @@ RUN apk update --no-cache \
             | awk 'system("[ -e /usr/local/lib/" $1 " ]") == 0 { next } { print "so:" $1 }' \
         ) \
         postgresql-client \
-        shadow \
-        su-exec \
-        tzdata \
+#        shadow \
+#        su-exec \
+#        tzdata \
     && apk del --no-cache .build-deps \
     && chmod +x /entrypoint.sh
 
