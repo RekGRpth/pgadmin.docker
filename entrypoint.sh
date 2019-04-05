@@ -12,6 +12,8 @@ if [ "$USER_ID" != "$(id -u "$USER")" ]; then
     usermod --uid "$USER_ID" "$USER"
 fi
 
+cp -rf /usr/local/lib/python3.7/site-packages/pgadmin4/* "$HOME/app"
+
 if [ ! -f "$HOME/config/pgadmin4.db" ]; then
     python "/usr/local/lib/python3.7/site-packages/pgadmin4/setup.py"
 fi
