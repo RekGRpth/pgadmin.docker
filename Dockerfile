@@ -31,7 +31,7 @@ RUN apk update --no-cache \
         postgresql-dev \
     && pip install --no-cache-dir --upgrade pip \
     && pip install --no-cache-dir \
-        psycopg2==2.7.7 \
+#        psycopg2==2.7.7 \
         uwsgi \
     && pip install --no-cache-dir --no-use-pep517 "https://ftp.postgresql.org/pub/pgadmin/pgadmin4/v${PGADMIN_VERSION}/pip/pgadmin4-${PGADMIN_VERSION}-py2.py3-none-any.whl" \
     && apk add --no-cache --virtual .pgadmin-rundeps \
