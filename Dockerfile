@@ -10,7 +10,7 @@ ENV GROUP=uwsgi \
     PGADMIN_PORT=5050 \
     PGADMIN_SETUP_EMAIL=container@pgadmin.org \
     PGADMIN_SETUP_PASSWORD=Conta1ner \
-    PGADMIN_VERSION=4.6 \
+    PGADMIN_VERSION=4.8 \
     PYTHONIOENCODING=UTF-8 \
     PYTHONPATH=/usr/local/lib/python3.7/site-packages/pgadmin4 \
     TZ=Asia/Yekaterinburg \
@@ -31,7 +31,6 @@ RUN apk update --no-cache \
         postgresql-dev \
     && pip install --no-cache-dir --upgrade pip \
     && pip install --no-cache-dir \
-#        psycopg2==2.7.7 \
         uwsgi \
     && pip install --no-cache-dir "https://ftp.postgresql.org/pub/pgadmin/pgadmin4/v${PGADMIN_VERSION}/pip/pgadmin4-${PGADMIN_VERSION}-py2.py3-none-any.whl" \
     && apk add --no-cache --virtual .pgadmin-rundeps \
