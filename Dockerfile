@@ -1,11 +1,5 @@
 FROM rekgrpth/gost
-
-MAINTAINER RekGRpth
-
-ADD entrypoint.sh /
-
 ENV GROUP=uwsgi \
-    HOME=/data \
     LANG=ru_RU.UTF-8 \
     PGADMIN_PORT=5050 \
     PGADMIN_SETUP_EMAIL=container@pgadmin.org \
@@ -15,7 +9,11 @@ ENV GROUP=uwsgi \
     PYTHONPATH=/usr/local/lib/python3.7/site-packages/pgadmin4:/usr/local/lib/python3.7:/usr/local/lib/python3.7/lib-dynload:/usr/local/lib/python3.7/site-packages \
     TZ=Asia/Yekaterinburg \
     USER=uwsgi
-
+COPY config_local.py /usr/local/lib/python3.7/site-packages/pgadmin4/
+WORKDIR "${HOME}/app"
+ADD entrypoint.sh /
+ENTRYPOINT [ "/entrypoint.sh" ]
+CMD [ "uwsgi", "--ini", "${HOME}/pgadmin.ini" ]
 RUN apk update --no-cache \
     && apk upgrade --no-cache \
     && addgroup -S "${GROUP}" \
@@ -28,8 +26,8 @@ RUN apk update --no-cache \
         make \
         musl-dev \
         pcre-dev \
-        python3-dev \
         postgresql-dev \
+        python3-dev \
     && ln -s pip3 /usr/bin/pip \
     && ln -s pydoc3 /usr/bin/pydoc \
     && ln -s python3 /usr/bin/python \
@@ -38,22 +36,12 @@ RUN apk update --no-cache \
         uwsgi \
     && pip install --no-cache-dir --prefix /usr/local "https://ftp.postgresql.org/pub/pgadmin/pgadmin4/v${PGADMIN_VERSION}/pip/pgadmin4-${PGADMIN_VERSION}-py2.py3-none-any.whl" \
     && apk add --no-cache --virtual .pgadmin-rundeps \
+        postgresql-client \
+#        uwsgi-python3 \
         $( scanelf --needed --nobanner --format '%n#p' --recursive /usr/local \
             | tr ',' '\n' \
             | sort -u \
             | awk 'system("[ -e /usr/local/lib/" $1 " ]") == 0 { next } { print "so:" $1 }' \
         ) \
-        postgresql-client \
-        uwsgi-python3 \
     && apk del --no-cache .build-deps \
     && chmod +x /entrypoint.sh
-
-COPY config_local.py /usr/local/lib/python3.7/site-packages/pgadmin4/
-
-VOLUME "${HOME}"
-
-WORKDIR "${HOME}/app"
-
-ENTRYPOINT [ "/entrypoint.sh" ]
-
-CMD [ "uwsgi", "--ini", "/data/pgadmin.ini" ]
