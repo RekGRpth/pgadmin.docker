@@ -1,13 +1,11 @@
 FROM rekgrpth/gost
 ENV GROUP=uwsgi \
-    LANG=ru_RU.UTF-8 \
     PGADMIN_PORT=5050 \
     PGADMIN_SETUP_EMAIL=container@pgadmin.org \
     PGADMIN_SETUP_PASSWORD=Conta1ner \
     PGADMIN_VERSION=4.10 \
     PYTHONIOENCODING=UTF-8 \
     PYTHONPATH=/usr/local/lib/python3.7/site-packages/pgadmin4:/usr/local/lib/python3.7:/usr/local/lib/python3.7/lib-dynload:/usr/local/lib/python3.7/site-packages \
-    TZ=Asia/Yekaterinburg \
     USER=uwsgi
 COPY config_local.py /usr/local/lib/python3.7/site-packages/pgadmin4/
 WORKDIR "${HOME}/app"
