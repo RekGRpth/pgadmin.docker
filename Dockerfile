@@ -11,7 +11,7 @@ COPY config_local.py /usr/local/lib/python3.7/site-packages/pgadmin4/
 WORKDIR "${HOME}/app"
 ADD entrypoint.sh /
 ENTRYPOINT [ "/entrypoint.sh" ]
-CMD [ "uwsgi", "--ini", "${HOME}/pgadmin.ini" ]
+CMD [ "uwsgi", "--ini", "/data/pgadmin.ini" ]
 RUN apk update --no-cache \
     && apk upgrade --no-cache \
     && addgroup -S "${GROUP}" \
