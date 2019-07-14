@@ -1,6 +1,5 @@
 FROM rekgrpth/gost
 ADD entrypoint.sh /
-CMD [ "uwsgi" ]
 COPY config_local.py /usr/local/lib/python3.7/site-packages/pgadmin4/
 ENV GROUP=uwsgi \
     PGADMIN_PORT=5050 \
