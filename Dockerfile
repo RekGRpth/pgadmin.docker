@@ -1,4 +1,7 @@
 FROM rekgrpth/gost
+ADD entrypoint.sh /
+CMD [ "uwsgi" ]
+COPY config_local.py /usr/local/lib/python3.7/site-packages/pgadmin4/
 ENV GROUP=uwsgi \
     PGADMIN_PORT=5050 \
     PGADMIN_SETUP_EMAIL=container@pgadmin.org \
@@ -7,11 +10,7 @@ ENV GROUP=uwsgi \
     PYTHONIOENCODING=UTF-8 \
     PYTHONPATH=/usr/local/lib/python3.7/site-packages/pgadmin4:/usr/local/lib/python3.7:/usr/local/lib/python3.7/lib-dynload:/usr/local/lib/python3.7/site-packages \
     USER=uwsgi
-COPY config_local.py /usr/local/lib/python3.7/site-packages/pgadmin4/
-WORKDIR "${HOME}/app"
-ADD entrypoint.sh /
-ENTRYPOINT [ "/entrypoint.sh" ]
-CMD [ "uwsgi", "--ini", "/data/pgadmin.ini" ]
+VOLUME "${HOME}"
 RUN apk update --no-cache \
     && apk upgrade --no-cache \
     && addgroup -S "${GROUP}" \

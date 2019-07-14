@@ -16,5 +16,5 @@ docker run \
     --name pgadmin \
     --network my \
     --restart always \
-    --volume pgadmin:/data \
+    --volume pgadmin:/home \
     rekgrpth/pgadmin
