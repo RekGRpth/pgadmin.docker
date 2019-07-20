@@ -9,8 +9,6 @@ ENV PGADMIN_PORT=5050 \
 VOLUME "${HOME}"
 RUN apk update --no-cache \
     && apk upgrade --no-cache \
-#    && addgroup -S "${GROUP}" \
-#    && adduser -D -S -h "${HOME}" -s /sbin/nologin -G "${GROUP}" "${USER}" \
     && apk add --no-cache --virtual .build-deps \
         gcc \
         gettext-dev \
@@ -24,28 +22,17 @@ RUN apk update --no-cache \
         py3-cparser \
         py3-setuptools \
         python3-dev \
-#    && ln -s pip3 /usr/bin/pip \
-#    && ln -s pydoc3 /usr/bin/pydoc \
-#    && ln -s python3 /usr/bin/python \
-#    && pip install --no-cache-dir --upgrade pip \
-#    && pip install --no-cache-dir --prefix /usr/local \
-#        uwsgi \
     && apk add --no-cache \
         py3-babel \
         py3-bcrypt \
         py3-blinker \
         py3-flask \
-        py3-flask-babel \
         py3-flask-login \
         py3-flask-wtf \
         py3-mako \
         py3-paramiko \
         py3-passlib \
-        py3-psutil \
         py3-sqlalchemy \
-        py3-simplejson \
-        py3-sqlparse \
-        py3-tz \
     && pip install --no-cache-dir --prefix /usr/local "https://ftp.postgresql.org/pub/pgadmin/pgadmin4/v${PGADMIN_VERSION}/pip/pgadmin4-${PGADMIN_VERSION}-py2.py3-none-any.whl" \
     && apk add --no-cache --virtual .pgadmin-rundeps \
         postgresql-client \
