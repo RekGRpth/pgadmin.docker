@@ -26,13 +26,20 @@ RUN apk update --no-cache \
         py3-babel \
         py3-bcrypt \
         py3-blinker \
+        py3-dateutil \
         py3-flask \
+        py3-flask-babel \
         py3-flask-login \
         py3-flask-wtf \
         py3-mako \
         py3-paramiko \
         py3-passlib \
+        py3-psutil \
+        py3-psycopg2 \
+        py3-simplejson \
         py3-sqlalchemy \
+        py3-sqlparse \
+        py3-tz \
     && pip install --no-cache-dir --prefix /usr/local "https://ftp.postgresql.org/pub/pgadmin/pgadmin4/v${PGADMIN_VERSION}/pip/pgadmin4-${PGADMIN_VERSION}-py2.py3-none-any.whl" \
     && apk add --no-cache --virtual .pgadmin-rundeps \
         postgresql-client \
