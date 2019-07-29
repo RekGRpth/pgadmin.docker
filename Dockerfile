@@ -4,7 +4,7 @@ COPY config_local.py /usr/local/lib/python3.7/site-packages/pgadmin4/
 ENV PGADMIN_PORT=5050 \
     PGADMIN_SETUP_EMAIL=container@pgadmin.org \
     PGADMIN_SETUP_PASSWORD=Conta1ner \
-    PGADMIN_VERSION=4.10 \
+    PGADMIN_VERSION=4.11 \
     PYTHONPATH=/usr/local/lib/python3.7/site-packages/pgadmin4:/usr/local/lib/python3.7:/usr/local/lib/python3.7/lib-dynload:/usr/local/lib/python3.7/site-packages
 VOLUME "${HOME}"
 RUN set -ex \
