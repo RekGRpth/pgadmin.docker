@@ -7,7 +7,8 @@ ENV PGADMIN_PORT=5050 \
     PGADMIN_VERSION=4.10 \
     PYTHONPATH=/usr/local/lib/python3.7/site-packages/pgadmin4:/usr/local/lib/python3.7:/usr/local/lib/python3.7/lib-dynload:/usr/local/lib/python3.7/site-packages
 VOLUME "${HOME}"
-RUN apk update --no-cache \
+RUN set -ex \
+    && apk update --no-cache \
     && apk upgrade --no-cache \
     && apk add --no-cache --virtual .build-deps \
         gcc \
