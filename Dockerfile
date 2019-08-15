@@ -1,24 +1,21 @@
 FROM rekgrpth/gost
 ADD entrypoint.sh /
+CMD [ "python", "pgAdmin4.py" ]
 COPY config_local.py /usr/local/lib/python3.7/site-packages/pgadmin4/
-ENV GROUP=uwsgi \
+ENV GROUP=pgadmin \
     PGADMIN_PORT=5050 \
     PGADMIN_SETUP_EMAIL=container@pgadmin.org \
     PGADMIN_SETUP_PASSWORD=Conta1ner \
     PGADMIN_VERSION=4.11 \
     PYTHONIOENCODING=UTF-8 \
     PYTHONPATH=/usr/local/lib/python3.7/site-packages/pgadmin4:/usr/local/lib/python3.7:/usr/local/lib/python3.7/lib-dynload:/usr/local/lib/python3.7/site-packages \
-    USER=uwsgi
+    USER=pgadmin
 VOLUME "${HOME}"
 RUN set -ex \
     && apk update --no-cache \
     && apk upgrade --no-cache \
     && addgroup -S "${GROUP}" \
     && adduser -D -S -h "${HOME}" -s /sbin/nologin -G "${GROUP}" "${USER}" \
-    && apk add --no-cache --virtual .uwsgi-rundeps \
-        ipython \
-        uwsgi \
-        uwsgi-python3 \
     && ln -s pip3 /usr/bin/pip \
     && ln -s pydoc3 /usr/bin/pydoc \
     && ln -s python3 /usr/bin/python \
@@ -37,6 +34,7 @@ RUN set -ex \
         py3-setuptools \
         python3-dev \
     && apk add --no-cache \
+        ipython \
         py3-babel \
         py3-bcrypt \
         py3-blinker \
