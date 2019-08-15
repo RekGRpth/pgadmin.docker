@@ -1,6 +1,5 @@
 FROM rekgrpth/gost
 ADD entrypoint.sh /
-CMD [ "python", "pgAdmin4.py" ]
 COPY config_local.py /usr/local/lib/python3.7/site-packages/pgadmin4/
 ENV GROUP=pgadmin \
     PGADMIN_PORT=5050 \
@@ -34,7 +33,6 @@ RUN set -ex \
         py3-setuptools \
         python3-dev \
     && apk add --no-cache \
-        ipython \
         py3-babel \
         py3-bcrypt \
         py3-blinker \
@@ -55,7 +53,10 @@ RUN set -ex \
     && pip install --no-cache-dir --prefix /usr/local "https://ftp.postgresql.org/pub/pgadmin/pgadmin4/v${PGADMIN_VERSION}/pip/pgadmin4-${PGADMIN_VERSION}-py2.py3-none-any.whl" \
     && (strip /usr/local/bin/* /usr/local/lib/*.so || true) \
     && apk add --no-cache --virtual .pgadmin-rundeps \
+        ipython \
         postgresql-client \
+        uwsgi \
+        uwsgi-python3 \
         $(scanelf --needed --nobanner --format '%n#p' --recursive /usr/local | tr ',' '\n' | sort -u | awk 'system("[ -e /usr/local/lib/" $1 " ]") == 0 { next } { print "so:" $1 }') \
     && apk del --no-cache .build-deps \
     && rm -rf /usr/local/lib/python3.7/site-packages/pgadmin4/docs \

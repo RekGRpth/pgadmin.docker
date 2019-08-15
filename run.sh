@@ -17,4 +17,4 @@ docker run \
     --network my \
     --restart always \
     --volume pgadmin:/home \
-    rekgrpth/pgadmin
+    rekgrpth/pgadmin uwsgi --ini pgadmin.ini
