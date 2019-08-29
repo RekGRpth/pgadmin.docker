@@ -11,8 +11,6 @@ ENV GROUP=pgadmin \
     USER=pgadmin
 VOLUME "${HOME}"
 RUN set -ex \
-    && apk update --no-cache \
-    && apk upgrade --no-cache \
     && addgroup -S "${GROUP}" \
     && adduser -D -S -h "${HOME}" -s /sbin/nologin -G "${GROUP}" "${USER}" \
     && ln -s pip3 /usr/bin/pip \
