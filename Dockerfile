@@ -30,31 +30,13 @@ RUN set -ex \
         py3-cparser \
         py3-setuptools \
         python3-dev \
-    && apk add --no-cache \
-        py3-babel \
-        py3-bcrypt \
-        py3-blinker \
-        py3-dateutil \
-        py3-flask \
-        py3-flask-babel \
-        py3-flask-login \
-        py3-flask-wtf \
-        py3-mako \
-        py3-paramiko \
-        py3-passlib \
-        py3-psutil \
-        py3-psycopg2 \
-        py3-simplejson \
-        py3-sqlalchemy \
-        py3-sqlparse \
-        py3-tz \
+    && pip install --no-cache-dir --prefix /usr/local \
+        uwsgi \
+        ipython \
     && pip install --no-cache-dir --prefix /usr/local "https://ftp.postgresql.org/pub/pgadmin/pgadmin4/v${PGADMIN_VERSION}/pip/pgadmin4-${PGADMIN_VERSION}-py2.py3-none-any.whl" \
     && (strip /usr/local/bin/* /usr/local/lib/*.so || true) \
     && apk add --no-cache --virtual .pgadmin-rundeps \
-        ipython \
         postgresql-client \
-        uwsgi \
-        uwsgi-python3 \
         $(scanelf --needed --nobanner --format '%n#p' --recursive /usr/local | tr ',' '\n' | sort -u | awk 'system("[ -e /usr/local/lib/" $1 " ]") == 0 { next } { print "so:" $1 }') \
     && apk del --no-cache .build-deps \
     && rm -rf /usr/local/lib/python3.7/site-packages/pgadmin4/docs \
