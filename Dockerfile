@@ -26,10 +26,11 @@ RUN set -ex \
         musl-dev \
         pcre-dev \
         postgresql-dev \
-        py3-cffi \
-        py3-cparser \
-        py3-setuptools \
+#        py3-cffi \
+#        py3-cparser \
+#        py3-setuptools \
         python3-dev \
+    && pip install --no-cache-dir --upgrade pip \
     && pip install --no-cache-dir --prefix /usr/local \
         uwsgi \
     && pip install --no-cache-dir --prefix /usr/local "https://ftp.postgresql.org/pub/pgadmin/pgadmin4/v${PGADMIN_VERSION}/pip/pgadmin4-${PGADMIN_VERSION}-py2.py3-none-any.whl" \
