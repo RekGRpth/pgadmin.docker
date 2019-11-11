@@ -1,13 +1,13 @@
 FROM rekgrpth/gost
 ADD entrypoint.sh /
-COPY config_local.py /usr/local/lib/python3.7/site-packages/pgadmin4/
+COPY config_local.py /usr/local/lib/python3.8/site-packages/pgadmin4/
 ENV GROUP=pgadmin \
     PGADMIN_PORT=5050 \
     PGADMIN_SETUP_EMAIL=container@pgadmin.org \
     PGADMIN_SETUP_PASSWORD=Conta1ner \
     PGADMIN_VERSION=4.14 \
     PYTHONIOENCODING=UTF-8 \
-    PYTHONPATH=/usr/local/lib/python3.7/site-packages/pgadmin4:/usr/local/lib/python3.7:/usr/local/lib/python3.7/lib-dynload:/usr/local/lib/python3.7/site-packages \
+    PYTHONPATH=/usr/local/lib/python3.8/site-packages/pgadmin4:/usr/local/lib/python3.8:/usr/local/lib/python3.8/lib-dynload:/usr/local/lib/python3.8/site-packages \
     USER=pgadmin
 VOLUME "${HOME}"
 RUN set -ex \
@@ -38,5 +38,5 @@ RUN set -ex \
         postgresql-client \
         $(scanelf --needed --nobanner --format '%n#p' --recursive /usr/local | tr ',' '\n' | sort -u | awk 'system("[ -e /usr/local/lib/" $1 " ]") == 0 { next } { print "so:" $1 }') \
     && apk del --no-cache .build-deps \
-    && rm -rf /usr/local/lib/python3.7/site-packages/pgadmin4/docs \
+    && rm -rf /usr/local/lib/python3.8/site-packages/pgadmin4/docs \
     && chmod +x /entrypoint.sh
