@@ -16,5 +16,7 @@ docker run \
     --name pgadmin \
     --network docker \
     --restart always \
+    --volume /etc/certs/$(hostname -d).crt:/etc/ssl/server.crt \
+    --volume /etc/certs/$(hostname -d).key:/etc/ssl/server.key \
     --volume pgadmin:/home \
     rekgrpth/pgadmin uwsgi --ini pgadmin.ini
