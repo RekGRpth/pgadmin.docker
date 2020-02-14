@@ -32,8 +32,7 @@ RUN set -ex \
     && pip install --no-cache-dir --prefix /usr/local \
         python-pcre \
         uwsgi \
-        werkzeug==0.16.1 \
-    && pip install --no-cache-dir --prefix /usr/local "https://ftp.postgresql.org/pub/pgadmin/pgadmin4/v${PGADMIN_VERSION}/pip/pgadmin4-${PGADMIN_VERSION}-py2.py3-none-any.whl" \
+    && pip install --no-cache-dir --prefix /usr/local "https://ftp.postgresql.org/pub/pgadmin/pgadmin4/snapshots/$(date +"%Y-%m-%d")/pgadmin4-${PGADMIN_VERSION}-py2.py3-none-any.whl" \
     && (strip /usr/local/bin/* /usr/local/lib/*.so || true) \
     && apk add --no-cache --virtual .pgadmin-rundeps \
         postgresql-client \
