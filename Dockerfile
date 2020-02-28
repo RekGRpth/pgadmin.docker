@@ -27,6 +27,7 @@ RUN set -ex \
         pcre2-dev \
         pcre-dev \
         postgresql-dev \
+        py3-pip \
         python3-dev \
     && pip install --no-cache-dir --upgrade pip \
     && pip install --no-cache-dir --prefix /usr/local \
