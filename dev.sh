@@ -5,14 +5,18 @@
 docker pull rekgrpth/pgadmin || exit $?
 docker volume create pgadmin || exit $?
 docker network create --attachable --driver overlay docker || echo $?
-docker service create \
+docker stop pgadmin || echo $?
+docker rm pgadmin || echo $?
+docker run \
+    --detach \
     --env GROUP_ID=$(id -g) \
     --env LANG=ru_RU.UTF-8 \
     --env TZ=Asia/Yekaterinburg \
     --env USER_ID=$(id -u) \
     --hostname pgadmin \
-    --mount type=bind,source=/etc/certs,destination=/etc/certs \
-    --mount type=volume,source=pgadmin,destination=/home \
     --name pgadmin \
     --network name=docker \
+    --restart always \
+    --volume /etc/certs:/etc/certs \
+    --volume pgadmin:/home \
     rekgrpth/pgadmin uwsgi --ini pgadmin.ini
