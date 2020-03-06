@@ -4,7 +4,7 @@
 #docker push rekgrpth/pgadmin || exit $?
 docker pull rekgrpth/pgadmin || exit $?
 docker volume create pgadmin || exit $?
-docker network create --attachable --driver overlay docker || echo $?
+docker network create --attachable --opt com.docker.network.bridge.name=docker docker || echo $?
 docker stop pgadmin || echo $?
 docker rm pgadmin || echo $?
 docker run \
