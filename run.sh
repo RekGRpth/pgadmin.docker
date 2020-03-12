@@ -19,4 +19,5 @@ docker run \
     --restart always \
     --volume /etc/certs:/etc/certs \
     --volume pgadmin:/home \
+    --volume /run/postgresql:/run/postgresql \
     rekgrpth/pgadmin uwsgi --ini pgadmin.ini
