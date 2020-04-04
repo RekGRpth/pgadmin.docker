@@ -13,7 +13,7 @@ if [ "$USER" != "" ]; then
         usermod --uid "$USER_ID" "$USER"
     fi
     find "$HOME" ! -user "$USER" -exec chown "$USER_ID" {} \; &
-    if [ ! -f "$HOME/config/pgadmin4.db" ]; then exec su-exec "$USER" python "/usr/local/lib/python3.7/site-packages/pgadmin4/setup.py"; fi
+    if [ ! -f "$HOME/config/pgadmin4.db" ]; then exec su-exec "$USER" python "/usr/local/lib/python3.8/site-packages/pgadmin4/setup.py"; fi
     exec su-exec "$USER" "$@"
 else
     exec "$@"
