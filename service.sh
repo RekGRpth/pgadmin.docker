@@ -12,9 +12,9 @@ docker service create \
     --env USER_ID=$(id -u) \
     --hostname pgadmin \
     --mount type=bind,source=/etc/certs,destination=/etc/certs \
+    --mount type=bind,source=/run/postgresql,destination=/run/postgresql \
+    --mount type=bind,source=/run/uwsgi,destination=/run/uwsgi \
     --mount type=volume,source=pgadmin,destination=/home \
-    --mount type=volume,source=/run/postgresql,destination=/run/postgresql \
-    --mount type=volume,source=/run/uwsgi,destination=/run/uwsgi \
     --name pgadmin \
     --network name=docker \
     rekgrpth/pgadmin uwsgi --ini pgadmin.ini
