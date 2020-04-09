@@ -14,7 +14,7 @@ if [ "$USER" != "" ]; then
         chown "$USER_ID" "$HOME"
     fi
     if [ ! -f "$HOME/config/pgadmin4.db" ]; then
-        exec su-exec "$USER" python "/usr/local/lib/python${PYTHON_VERSION}/site-packages/pgadmin4/setup.py"
+        su-exec "$USER" python "/usr/local/lib/python${PYTHON_VERSION}/site-packages/pgadmin4/setup.py"
     fi
     exec su-exec "$USER" "$@"
 else
