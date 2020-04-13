@@ -1,4 +1,4 @@
-#!/bin/sh -ex
+#!/bin/sh -x
 
 #docker build --tag rekgrpth/pgadmin . || exit $?
 #docker push rekgrpth/pgadmin || exit $?

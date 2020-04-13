@@ -11,7 +11,7 @@ ENV GROUP=pgadmin \
     PYTHONPATH=/usr/local/lib/python${PYTHON_VERSION}/site-packages/pgadmin4:/usr/local/lib/python${PYTHON_VERSION}:/usr/local/lib/python${PYTHON_VERSION}/lib-dynload:/usr/local/lib/python${PYTHON_VERSION}/site-packages \
     USER=pgadmin
 VOLUME "${HOME}"
-RUN set -ex \
+RUN set -x \
     && addgroup -S "${GROUP}" \
     && adduser -D -S -h "${HOME}" -s /sbin/nologin -G "${GROUP}" "${USER}" \
     && ln -s pip3 /usr/bin/pip \
