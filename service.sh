@@ -1,9 +1,9 @@
 #!/bin/sh -ex
 
-#docker build --tag rekgrpth/pgadmin . || exit $?
-#docker push rekgrpth/pgadmin || exit $?
-docker pull rekgrpth/pgadmin || exit $?
-docker volume create pgadmin || exit $?
+#docker build --tag rekgrpth/pgadmin .
+#docker push rekgrpth/pgadmin
+docker pull rekgrpth/pgadmin
+docker volume create pgadmin
 docker network create --attachable --driver overlay docker || echo $?
 docker service create \
     --env GROUP_ID=$(id -g) \

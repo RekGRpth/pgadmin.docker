@@ -1,9 +1,9 @@
 #!/bin/sh -ex
 
-#docker build --tag rekgrpth/pgadmin . || exit $?
-#docker push rekgrpth/pgadmin || exit $?
-docker pull rekgrpth/pgadmin || exit $?
-docker volume create pgadmin || exit $?
+#docker build --tag rekgrpth/pgadmin .
+#docker push rekgrpth/pgadmin
+docker pull rekgrpth/pgadmin
+docker volume create pgadmin
 docker network create --attachable --opt com.docker.network.bridge.name=docker docker || echo $?
 docker stop pgadmin || echo $?
 docker rm pgadmin || echo $?
