@@ -44,4 +44,5 @@ RUN exec 2>&1 \
         $(scanelf --needed --nobanner --format '%n#p' --recursive /usr/local | tr ',' '\n' | sort -u | awk 'system("[ -e /usr/local/lib/" $1 " ]") == 0 { next } { print "so:" $1 }') \
     && apk del --no-cache .build-deps \
     && rm -rf /usr/local/lib/python${PYTHON_VERSION}/site-packages/pgadmin4/docs /usr/src /usr/share/doc /usr/share/man /usr/local/share/doc /usr/local/share/man \
+    && find / -name "*.pyc" -delete \
     && chmod +x /usr/local/bin/docker_entrypoint.sh
