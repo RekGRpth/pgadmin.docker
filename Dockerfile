@@ -20,6 +20,7 @@ RUN exec 2>&1 \
     && ln -s python3 /usr/bin/python \
     && ln -s python3-config /usr/bin/python-config \
     && apk add --no-cache --virtual .build-deps \
+        cargo \
         gcc \
         gettext-dev \
         krb5-dev \
@@ -32,6 +33,7 @@ RUN exec 2>&1 \
         postgresql-dev \
         py3-pip \
         python3-dev \
+        rust \
     && pip install --no-cache-dir --ignore-installed --prefix /usr/local \
         python-pcre \
         setuptools \
