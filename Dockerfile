@@ -21,6 +21,7 @@ RUN exec 2>&1 \
     && ln -s python3-config /usr/bin/python-config \
     && apk add --no-cache --virtual .build-deps \
         cargo \
+        g++ \
         gcc \
         gettext-dev \
         krb5-dev \
