@@ -22,6 +22,7 @@ RUN exec 2>&1 \
     && apk add --no-cache --virtual .build-deps \
         gcc \
         gettext-dev \
+        krb5-dev \
         libffi-dev \
         linux-headers \
         make \
