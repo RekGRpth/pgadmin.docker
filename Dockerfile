@@ -1,7 +1,7 @@
 FROM rekgrpth/gost
-ADD docker_entrypoint.sh /usr/local/bin/
 ENV PYTHON_VERSION 3.8
 COPY config_local.py /usr/local/lib/python${PYTHON_VERSION}/site-packages/pgadmin4/
+COPY docker_entrypoint.sh /usr/local/bin/
 ENV GROUP=pgadmin \
     PGADMIN_PORT=5050 \
     PGADMIN_SETUP_EMAIL=container@pgadmin.org \
@@ -42,13 +42,15 @@ RUN set -eux; \
     ; \
     pip install --no-cache-dir --ignore-installed --prefix /usr/local "https://ftp.postgresql.org/pub/pgadmin/pgadmin4/v${PGADMIN_VERSION}/pip/pgadmin4-${PGADMIN_VERSION}-py3-none-any.whl"; \
 #    pip install --no-cache-dir --ignore-installed --prefix /usr/local "https://ftp.postgresql.org/pub/pgadmin/pgadmin4/snapshots/$(date +"%Y-%m-%d")/pgadmin4-${PGADMIN_VERSION}-py3-none-any.whl"; \
-    (strip /usr/local/bin/* /usr/local/lib/*.so || true); \
     apk add --no-cache --virtual .pgadmin-rundeps \
         postgresql-client \
         su-exec \
         $(scanelf --needed --nobanner --format '%n#p' --recursive /usr/local | tr ',' '\n' | sort -u | while read -r lib; do test ! -e "/usr/local/lib/$lib" && echo "so:$lib"; done) \
     ; \
+    (strip /usr/local/bin/* /usr/local/lib/*.so || true); \
     apk del --no-cache .build-deps; \
     rm -rf /usr/local/lib/python${PYTHON_VERSION}/site-packages/pgadmin4/docs /usr/src /usr/share/doc /usr/share/man /usr/local/share/doc /usr/local/share/man; \
     find / -name "*.pyc" -delete; \
+    find / -name "*.a" -delete; \
+    find / -name "*.la" -delete; \
     chmod +x /usr/local/bin/docker_entrypoint.sh
