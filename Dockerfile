@@ -1,12 +1,10 @@
 FROM rekgrpth/gost
-ENV PYTHON_VERSION 3.8
-COPY config_local.py /usr/local/lib/python${PYTHON_VERSION}/site-packages/pgadmin4/
-COPY docker_entrypoint.sh /usr/local/bin/
+ARG PGADMIN_VERSION 5.4
+ARG PYTHON_VERSION 3.8
 ENV GROUP=pgadmin \
     PGADMIN_PORT=5050 \
     PGADMIN_SETUP_EMAIL=container@pgadmin.org \
     PGADMIN_SETUP_PASSWORD=Conta1ner \
-    PGADMIN_VERSION=5.4 \
     PYTHONIOENCODING=UTF-8 \
     PYTHONPATH=/usr/local/lib/python${PYTHON_VERSION}/site-packages/pgadmin4:/usr/local/lib/python${PYTHON_VERSION}:/usr/local/lib/python${PYTHON_VERSION}/lib-dynload:/usr/local/lib/python${PYTHON_VERSION}/site-packages \
     USER=pgadmin
@@ -23,6 +21,7 @@ RUN set -eux; \
         g++ \
         gcc \
         gettext-dev \
+        git \
         krb5-dev \
         libffi-dev \
         linux-headers \
@@ -35,6 +34,10 @@ RUN set -eux; \
         python3-dev \
         rust \
     ; \
+    mkdir -p /usr/src; \
+    cd /usr/src; \
+    git clone https://bitbucket.org/RekGRpth/pgadmin.git; \
+    cd /; \
     pip install --no-cache-dir --ignore-installed --prefix /usr/local \
         python-pcre \
         setuptools \
@@ -42,12 +45,16 @@ RUN set -eux; \
     ; \
     pip install --no-cache-dir --ignore-installed --prefix /usr/local "https://ftp.postgresql.org/pub/pgadmin/pgadmin4/v${PGADMIN_VERSION}/pip/pgadmin4-${PGADMIN_VERSION}-py3-none-any.whl"; \
 #    pip install --no-cache-dir --ignore-installed --prefix /usr/local "https://ftp.postgresql.org/pub/pgadmin/pgadmin4/snapshots/$(date +"%Y-%m-%d")/pgadmin4-${PGADMIN_VERSION}-py3-none-any.whl"; \
+    cd /usr/src/pgadmin; \
+    cp -rf docker_entrypoint.sh /usr/local/bin/; \
+    cp -rf config_local.py /usr/local/lib/python${PYTHON_VERSION}/site-packages/pgadmin4/; \
+    cd /; \
     apk add --no-cache --virtual .pgadmin-rundeps \
         postgresql-client \
         su-exec \
         $(scanelf --needed --nobanner --format '%n#p' --recursive /usr/local | tr ',' '\n' | sort -u | while read -r lib; do test ! -e "/usr/local/lib/$lib" && echo "so:$lib"; done) \
     ; \
-    (strip /usr/local/bin/* /usr/local/lib/*.so || true); \
+    find /usr/local/bin /usr/local/lib -type f -exec strip '{}' \;; \
     apk del --no-cache .build-deps; \
     rm -rf /usr/local/lib/python${PYTHON_VERSION}/site-packages/pgadmin4/docs /usr/src /usr/share/doc /usr/share/man /usr/local/share/doc /usr/local/share/man; \
     find / -name "*.pyc" -delete; \
