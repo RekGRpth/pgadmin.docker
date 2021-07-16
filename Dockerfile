@@ -31,6 +31,7 @@ RUN set -eux; \
         pcre-dev \
         postgresql-dev \
         py3-pip \
+        py3-wheel \
         python3-dev \
         rust \
     ; \
