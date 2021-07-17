@@ -1,6 +1,8 @@
 FROM rekgrpth/gost
 ARG PGADMIN_VERSION=5.5
 ARG PYTHON_VERSION=3.8
+COPY config_local.py "${HOME}/src/"
+COPY docker_entrypoint.sh /usr/local/bin/
 ENV GROUP=pgadmin \
     PGADMIN_PORT=5050 \
     PGADMIN_SETUP_EMAIL=container@pgadmin.org \
@@ -35,9 +37,7 @@ RUN set -eux; \
         python3-dev \
         rust \
     ; \
-    mkdir -p "${HOME}"; \
-    cd "${HOME}"; \
-    git clone https://bitbucket.org/RekGRpth/pgadmin.git; \
+    cd "${HOME}/src"; \
     pip install --no-cache-dir --ignore-installed --prefix /usr/local \
         python-pcre \
         setuptools \
@@ -45,8 +45,6 @@ RUN set -eux; \
     ; \
     pip install --no-cache-dir --ignore-installed --prefix /usr/local "https://ftp.postgresql.org/pub/pgadmin/pgadmin4/v${PGADMIN_VERSION}/pip/pgadmin4-${PGADMIN_VERSION}-py3-none-any.whl"; \
 #    pip install --no-cache-dir --ignore-installed --prefix /usr/local "https://ftp.postgresql.org/pub/pgadmin/pgadmin4/snapshots/$(date +"%Y-%m-%d")/pgadmin4-${PGADMIN_VERSION}-py3-none-any.whl"; \
-    cd "${HOME}/pgadmin"; \
-    cp -rf docker_entrypoint.sh /usr/local/bin/; \
     cp -rf config_local.py "/usr/local/lib/python${PYTHON_VERSION}/site-packages/pgadmin4/"; \
     cd "${HOME}"; \
     apk add --no-cache --virtual .pgadmin-rundeps \
@@ -60,4 +58,5 @@ RUN set -eux; \
     find / -type f -name "*.a" -delete; \
     find / -type f -name "*.la" -delete; \
     rm -rf "/usr/local/lib/python${PYTHON_VERSION}/site-packages/pgadmin4/docs" "${HOME}" /usr/share/doc /usr/share/man /usr/local/share/doc /usr/local/share/man; \
-    chmod +x /usr/local/bin/docker_entrypoint.sh
+    chmod +x /usr/local/bin/docker_entrypoint.sh; \
+    echo done
