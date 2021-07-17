@@ -1,8 +1,8 @@
 FROM rekgrpth/gost
+ADD config_local.py "${HOME}/src/"
+ADD docker_entrypoint.sh /usr/local/bin/
 ARG PGADMIN_VERSION=5.5
 ARG PYTHON_VERSION=3.8
-COPY config_local.py "${HOME}/src/"
-COPY docker_entrypoint.sh /usr/local/bin/
 ENV GROUP=pgadmin \
     PGADMIN_PORT=5050 \
     PGADMIN_SETUP_EMAIL=container@pgadmin.org \
