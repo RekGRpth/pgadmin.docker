@@ -1,8 +1,6 @@
-#!/bin/sh -ex
+#!/bin/sh -eux
 
-#docker build --tag rekgrpth/pgadmin .
-#docker push rekgrpth/pgadmin
-docker pull rekgrpth/pgadmin
+docker pull ghcr.io/rekgrpth/pgadmin.docker
 docker volume create pgadmin
 docker network create --attachable --opt com.docker.network.bridge.name=docker docker || echo $?
 docker stop pgadmin || echo $?
@@ -21,4 +19,4 @@ docker run \
     --name pgadmin \
     --network name=docker \
     --restart always \
-    rekgrpth/pgadmin uwsgi --ini pgadmin.ini
+    ghcr.io/rekgrpth/pgadmin.docker uwsgi --ini pgadmin.ini

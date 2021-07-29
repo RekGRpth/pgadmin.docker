@@ -1,4 +1,4 @@
-FROM rekgrpth/gost
+FROM ghcr.io/rekgrpth/gost.docker
 ADD config_local.py "${HOME}/src/"
 ADD docker_entrypoint.sh /usr/local/bin/
 ARG PGADMIN_VERSION=5.5
