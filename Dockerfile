@@ -10,7 +10,6 @@ ENV GROUP=pgadmin \
     PYTHONIOENCODING=UTF-8 \
     PYTHONPATH="/usr/local/lib/python${PYTHON_VERSION}/site-packages/pgadmin4:/usr/local/lib/python${PYTHON_VERSION}:/usr/local/lib/python${PYTHON_VERSION}/lib-dynload:/usr/local/lib/python${PYTHON_VERSION}/site-packages" \
     USER=pgadmin
-VOLUME "${HOME}"
 RUN set -eux; \
     addgroup -S "${GROUP}"; \
     adduser -D -S -h "${HOME}" -s /sbin/nologin -G "${GROUP}" "${USER}"; \
@@ -39,7 +38,7 @@ RUN set -eux; \
         python3-dev \
         rust \
     ; \
-    cd "${HOME}/src"; \
+    cd "${HOME}"; \
     pip install --no-cache-dir --ignore-installed --prefix /usr/local \
         python-pcre \
         setuptools \
@@ -47,8 +46,8 @@ RUN set -eux; \
     ; \
     pip install --no-cache-dir --ignore-installed --prefix /usr/local "https://ftp.postgresql.org/pub/pgadmin/pgadmin4/v${PGADMIN_VERSION}/pip/pgadmin4-${PGADMIN_VERSION}-py3-none-any.whl"; \
 #    pip install --no-cache-dir --ignore-installed --prefix /usr/local "https://ftp.postgresql.org/pub/pgadmin/pgadmin4/snapshots/$(date +"%Y-%m-%d")/pgadmin4-${PGADMIN_VERSION}-py3-none-any.whl"; \
-    cp -rf config_local.py "/usr/local/lib/python${PYTHON_VERSION}/site-packages/pgadmin4/"; \
-    cd "${HOME}"; \
+    cp -rf "${HOME}/src/config_local.py" "/usr/local/lib/python${PYTHON_VERSION}/site-packages/pgadmin4/"; \
+    cd /; \
     apk add --no-cache --virtual .pgadmin-rundeps \
         postgresql-client \
         su-exec \
@@ -57,9 +56,9 @@ RUN set -eux; \
     find /usr/local/bin -type f -exec strip '{}' \;; \
     find /usr/local/lib -type f -name "*.so" -exec strip '{}' \;; \
     apk del --no-cache .build-deps; \
-    find / -type f -name "*.pyc" -delete; \
-    find / -type f -name "*.a" -delete; \
-    find / -type f -name "*.la" -delete; \
+    find /usr -type f -name "*.pyc" -delete; \
+    find /usr -type f -name "*.a" -delete; \
+    find /usr -type f -name "*.la" -delete; \
     rm -rf "/usr/local/lib/python${PYTHON_VERSION}/site-packages/pgadmin4/docs" "${HOME}" /usr/share/doc /usr/share/man /usr/local/share/doc /usr/local/share/man; \
     chmod +x /usr/local/bin/docker_entrypoint.sh; \
     echo done
