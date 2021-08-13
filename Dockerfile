@@ -1,7 +1,7 @@
 FROM ghcr.io/rekgrpth/gost.docker
 ADD config_local.py "${HOME}/src/"
 ADD docker_entrypoint.sh /usr/local/bin/
-ARG PGADMIN_VERSION=5.5
+ARG PGADMIN_VERSION=5.6
 ARG PYTHON_VERSION=3.9
 ENV GROUP=pgadmin \
     PGADMIN_PORT=5050 \
