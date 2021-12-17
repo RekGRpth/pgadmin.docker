@@ -25,7 +25,7 @@ RUN set -eux; \
         git \
         libffi-dev \
         libjpeg-turbo-dev \
-#        libpq-dev \
+        libpq-dev \
         linux-headers \
         make \
         musl-dev \
