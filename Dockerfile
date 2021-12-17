@@ -103,6 +103,7 @@ RUN set -eux; \
         py3-pynacl \
         py3-qrcode \
         py3-requests \
+        py3-setuptools \
         py3-simplejson \
         py3-sqlalchemy \
         py3-sqlparse \
