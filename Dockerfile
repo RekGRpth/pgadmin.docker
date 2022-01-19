@@ -23,7 +23,7 @@ RUN set -eux; \
     "docker_$DOCKER_BUILD.sh"; \
     "docker_clean_$DOCKER_TYPE.sh"; \
     rm -rf "$HOME" /usr/share/doc /usr/share/man /usr/local/share/doc /usr/local/share/man; \
-    rm -rf "/usr/local/lib/python${PYTHON_VERSION}/site-packages/pgadmin4/docs"; \
+    rm -rf "/usr/local/lib/python$DOCKER_PYTHON_VERSION/site-packages/pgadmin4/docs"; \
     find /usr -type f -name "*.la" -delete; \
     find /usr -type f -name "*.pyc" -delete; \
     mkdir -p "$HOME"; \

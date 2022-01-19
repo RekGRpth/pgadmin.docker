@@ -13,7 +13,7 @@ if [ "$(id -u)" = '0' ]; then
         chown "$USER_ID" "$HOME"
         usermod --home "$HOME" "$USER"
         if [ ! -f "$HOME/config/pgadmin4.db" ]; then
-            gosu "$USER" python "/usr/local/lib/python${DOCKER_PYTHON_VERSION}/site-packages/pgadmin4/setup.py"
+            gosu "$USER" python "/usr/local/lib/python$DOCKER_PYTHON_VERSION/site-packages/pgadmin4/setup.py"
         fi
         exec gosu "$USER" "$@"
     fi
