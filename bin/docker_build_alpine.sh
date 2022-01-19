@@ -13,6 +13,8 @@ apk add --no-cache --virtual .build-deps \
     make \
     musl-dev \
     openjpeg-dev \
+    pcre2-dev \
+    pcre-dev \
     py3-alembic \
     py3-authlib \
     py3-bcrypt \
