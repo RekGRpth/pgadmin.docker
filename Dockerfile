@@ -1,5 +1,4 @@
-ARG DOCKER_FROM=gost.docker:latest
-FROM "ghcr.io/rekgrpth/$DOCKER_FROM"
+FROM ghcr.io/rekgrpth/gost.docker:latest
 ADD bin /usr/local/bin
 ARG DOCKER_PYTHON_VERSION=3.9
 ENV GROUP=pgadmin \
