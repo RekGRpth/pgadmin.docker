@@ -1,6 +1,6 @@
 FROM ghcr.io/rekgrpth/gost.docker:latest
 ADD bin /usr/local/bin
-ARG DOCKER_PYTHON_VERSION=3.9
+ARG DOCKER_PYTHON_VERSION=3.10
 ENV GROUP=pgadmin \
     PGADMIN_SETUP_EMAIL=container@pgadmin.org \
     PGADMIN_SETUP_PASSWORD=Conta1ner \
