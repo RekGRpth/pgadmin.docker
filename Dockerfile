@@ -67,6 +67,9 @@ RUN set -eux; \
         zlib-dev \
     ; \
     cd "$HOME"; \
+    pip install --no-cache-dir --ignore-installed --prefix /usr/local \
+        Flask-Login \
+    ; \
     pip install --no-cache-dir --prefix /usr/local \
         pgadmin4 \
     ; \
