@@ -49,7 +49,7 @@ RUN set -eux; \
         py3-passlib \
         py3-pillow \
         py3-pip \
-        py3-psutil \
+#        py3-psutil \
         py3-psycopg2 \
         py3-pynacl \
         py3-qrcode \
@@ -60,7 +60,7 @@ RUN set -eux; \
         py3-sqlparse \
         py3-tz \
         py3-urllib3 \
-        py3-werkzeug \
+#        py3-werkzeug \
         py3-wheel \
         py3-wtforms \
         python3-dev \
@@ -98,7 +98,7 @@ RUN set -eux; \
         py3-paramiko \
         py3-passlib \
         py3-pillow \
-        py3-psutil \
+#        py3-psutil \
         py3-psycopg2 \
         py3-pynacl \
         py3-qrcode \
@@ -109,7 +109,7 @@ RUN set -eux; \
         py3-sqlparse \
         py3-tz \
         py3-urllib3 \
-        py3-werkzeug \
+#        py3-werkzeug \
         py3-wtforms \
         uwsgi-python3 \
         $(scanelf --needed --nobanner --format '%n#p' --recursive /usr/local | tr ',' '\n' | grep -v "^$" | grep -v -e libcrypto | sort -u | while read -r lib; do test -z "$(find /usr/local/lib -name "$lib")" && echo "so:$lib"; done) \
