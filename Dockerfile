@@ -1,4 +1,4 @@
-FROM ghcr.io/rekgrpth/gost.docker:latest
+FROM ghcr.io/rekgrpth/gost.docker:alpine_3_16
 ADD bin /usr/local/bin
 ARG DOCKER_PYTHON_VERSION=3.10
 ENV GROUP=pgadmin \
