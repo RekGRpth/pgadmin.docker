@@ -1,6 +1,6 @@
 #!/bin/sh -eux
 
-docker pull ghcr.io/rekgrpth/pgadmin.docker
+#docker pull ghcr.io/rekgrpth/pgadmin.docker
 docker volume create pgadmin
 docker network create --attachable --opt com.docker.network.bridge.name=docker docker || echo $?
 docker stop pgadmin || echo $?
@@ -14,9 +14,9 @@ docker run \
     --hostname pgadmin \
     --mount type=bind,source=/etc/certs,destination=/etc/certs,readonly \
     --mount type=bind,source=/run/postgresql,destination=/run/postgresql \
-    --mount type=bind,source=/run/uwsgi,destination=/run/uwsgi \
     --mount type=volume,source=pgadmin,destination=/home \
     --name pgadmin \
     --network name=docker \
+    --publish target=8443,published=8443,mode=host \
     --restart always \
-    ghcr.io/rekgrpth/pgadmin.docker uwsgi --ini pgadmin.ini
+    ghcr.io/rekgrpth/pgadmin.docker gunicorn --bind [::]:8443 --keyfile /etc/certs/server.key --certfile /etc/certs/server.crt pgAdmin4:app

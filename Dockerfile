@@ -1,10 +1,10 @@
-FROM alpine:3.16
+FROM alpine:latest
 ADD bin /usr/local/bin
 ENTRYPOINT [ "docker_entrypoint.sh" ]
 ENV HOME=/home
 MAINTAINER RekGRpth
 WORKDIR "$HOME"
-ARG DOCKER_PYTHON_VERSION=3.10
+ARG DOCKER_PYTHON_VERSION=3.11
 ENV GROUP=pgadmin \
     PGADMIN_SETUP_EMAIL=container@pgadmin.org \
     PGADMIN_SETUP_PASSWORD=Conta1ner \
@@ -31,51 +31,12 @@ RUN set -eux; \
         openjpeg-dev \
         pcre2-dev \
         pcre-dev \
-        py3-alembic \
-        py3-authlib \
-        py3-bcrypt \
-        py3-blinker \
-        py3-brotli \
-        py3-certifi \
-        py3-chardet \
-        py3-cryptography \
-        py3-dateutil \
-        py3-dnspython \
-        py3-email-validator \
-        py3-flask-babel \
-        py3-flask-login \
-        py3-flask-wtf \
-        py3-greenlet \
-        py3-idna \
-        py3-ldap3 \
-        py3-mako \
-        py3-otp \
-        py3-paramiko \
-        py3-passlib \
-        py3-pillow \
         py3-pip \
-#        py3-psutil \
-        py3-psycopg2 \
-        py3-pynacl \
-        py3-qrcode \
-        py3-requests \
-        py3-setuptools \
-        py3-simplejson \
-        py3-sqlalchemy \
-        py3-sqlparse \
-        py3-tz \
-        py3-urllib3 \
-#        py3-werkzeug \
-        py3-wheel \
-        py3-wtforms \
         python3-dev \
         zlib-dev \
     ; \
     cd "$HOME"; \
     pip install --no-cache-dir --ignore-installed --prefix /usr/local \
-        Flask-Login \
-    ; \
-    pip install --no-cache-dir --prefix /usr/local \
         pgadmin4 \
     ; \
     cd /; \
@@ -85,45 +46,10 @@ RUN set -eux; \
         ca-certificates \
         musl-locales \
         postgresql-client \
-        py3-alembic \
-        py3-authlib \
-        py3-bcrypt \
-        py3-blinker \
-        py3-brotli \
-        py3-certifi \
-        py3-chardet \
-        py3-cryptography \
-        py3-dateutil \
-        py3-dnspython \
-        py3-email-validator \
-        py3-flask-babel \
-        py3-flask-login \
-        py3-flask-wtf \
-        py3-greenlet \
-        py3-idna \
-        py3-ldap3 \
-        py3-mako \
-        py3-otp \
-        py3-paramiko \
-        py3-passlib \
-        py3-pillow \
-#        py3-psutil \
-        py3-psycopg2 \
-        py3-pynacl \
-        py3-qrcode \
-        py3-requests \
-        py3-setuptools \
-        py3-simplejson \
-        py3-sqlalchemy \
-        py3-sqlparse \
-        py3-tz \
-        py3-urllib3 \
-#        py3-werkzeug \
-        py3-wtforms \
+        py3-gunicorn \
         shadow \
         su-exec \
         tzdata \
-        uwsgi-python3 \
         $(scanelf --needed --nobanner --format '%n#p' --recursive /usr/local | tr ',' '\n' | grep -v "^$" | grep -v -e libcrypto | sort -u | while read -r lib; do test -z "$(find /usr/local/lib -name "$lib")" && echo "so:$lib"; done) \
     ; \
     find /usr/local/bin -type f -exec strip '{}' \;; \
