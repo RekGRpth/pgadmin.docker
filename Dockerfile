@@ -1,5 +1,9 @@
-FROM ghcr.io/rekgrpth/gost.docker:alpine_3_16
+FROM alpine:3.16
 ADD bin /usr/local/bin
+ENTRYPOINT [ "docker_entrypoint.sh" ]
+ENV HOME=/home
+MAINTAINER RekGRpth
+WORKDIR "$HOME"
 ARG DOCKER_PYTHON_VERSION=3.10
 ENV GROUP=pgadmin \
     PGADMIN_SETUP_EMAIL=container@pgadmin.org \
@@ -8,6 +12,7 @@ ENV GROUP=pgadmin \
     PYTHONPATH="/usr/local/lib/python$DOCKER_PYTHON_VERSION/site-packages/pgadmin4:/usr/local/lib/python$DOCKER_PYTHON_VERSION:/usr/local/lib/python$DOCKER_PYTHON_VERSION/lib-dynload:/usr/local/lib/python$DOCKER_PYTHON_VERSION/site-packages" \
     USER=pgadmin
 RUN set -eux; \
+    ln -fs su-exec /sbin/gosu; \
     chmod +x /usr/local/bin/*.sh; \
     apk update --no-cache; \
     apk upgrade --no-cache; \
@@ -75,6 +80,10 @@ RUN set -eux; \
     ; \
     cd /; \
     apk add --no-cache --virtual .pgadmin \
+        busybox-extras \
+        busybox-suid \
+        ca-certificates \
+        musl-locales \
         postgresql-client \
         py3-alembic \
         py3-authlib \
@@ -111,6 +120,9 @@ RUN set -eux; \
         py3-urllib3 \
 #        py3-werkzeug \
         py3-wtforms \
+        shadow \
+        su-exec \
+        tzdata \
         uwsgi-python3 \
         $(scanelf --needed --nobanner --format '%n#p' --recursive /usr/local | tr ',' '\n' | grep -v "^$" | grep -v -e libcrypto | sort -u | while read -r lib; do test -z "$(find /usr/local/lib -name "$lib")" && echo "so:$lib"; done) \
     ; \
