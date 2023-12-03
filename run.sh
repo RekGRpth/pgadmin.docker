@@ -19,4 +19,4 @@ docker run \
     --network name=docker \
     --publish target=8443,published=8443,mode=host \
     --restart always \
-    ghcr.io/rekgrpth/pgadmin.docker gunicorn --bind [::]:8443 --keyfile /etc/certs/server.key --certfile /etc/certs/server.crt pgAdmin4:app
+    ghcr.io/rekgrpth/pgadmin.docker gunicorn --threads "$(nproc)" --bind [::]:8443 --keyfile /etc/certs/server.key --certfile /etc/certs/server.crt --ca-certs /etc/certs/server.ca pgAdmin4:app
