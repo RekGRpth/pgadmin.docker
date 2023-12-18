@@ -47,6 +47,7 @@ RUN set -eux; \
         musl-locales \
         postgresql-client \
         py3-gunicorn \
+        py3-setuptools \
         shadow \
         su-exec \
         tzdata \
