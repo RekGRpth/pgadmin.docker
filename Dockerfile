@@ -37,6 +37,9 @@ RUN set -eux; \
     ; \
     cd "$HOME"; \
     pip install --no-cache-dir --ignore-installed --prefix /usr/local \
+        pip==24.0 \
+    ; \
+    pip install --no-cache-dir --ignore-installed --prefix /usr/local \
         pgadmin4 \
     ; \
     cd /; \
