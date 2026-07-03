@@ -1,10 +1,10 @@
-FROM alpine:latest
+FROM alpine:3.23
 ADD bin /usr/local/bin
 ENTRYPOINT [ "docker_entrypoint.sh" ]
 ENV HOME=/home
 MAINTAINER RekGRpth
 WORKDIR "$HOME"
-ARG DOCKER_PYTHON_VERSION=3.14
+ARG DOCKER_PYTHON_VERSION=3.12
 ENV GROUP=pgadmin \
     PGADMIN_SETUP_EMAIL=container@pgadmin.org \
     PGADMIN_SETUP_PASSWORD=Conta1ner \
@@ -51,7 +51,7 @@ RUN set -eux; \
         postgresql-client \
         py3-gunicorn \
         py3-setuptools \
-        py3-zstd \
+#        py3-zstd \
         shadow \
         su-exec \
         tzdata \
