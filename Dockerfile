@@ -51,6 +51,7 @@ RUN set -eux; \
         postgresql-client \
         py3-gunicorn \
         py3-setuptools \
+        py3-zstd \
         shadow \
         su-exec \
         tzdata \
