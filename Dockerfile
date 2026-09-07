@@ -6,8 +6,8 @@ MAINTAINER RekGRpth
 WORKDIR "$HOME"
 ARG DOCKER_PYTHON_VERSION=3.12
 ENV GROUP=pgadmin \
-    PGADMIN_SETUP_EMAIL=container@pgadmin.org \
-    PGADMIN_SETUP_PASSWORD=Conta1ner \
+    PGADMIN_DEFAULT_EMAIL=container@pgadmin.org \
+    PGADMIN_DEFAULT_PASSWORD=Conta1ner \
     PYTHONIOENCODING=UTF-8 \
     PYTHONPATH="/usr/local/lib/python$DOCKER_PYTHON_VERSION/site-packages/pgadmin4:/usr/local/lib/python$DOCKER_PYTHON_VERSION:/usr/local/lib/python$DOCKER_PYTHON_VERSION/lib-dynload:/usr/local/lib/python$DOCKER_PYTHON_VERSION/site-packages" \
     USER=pgadmin
