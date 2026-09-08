@@ -1,6 +1,6 @@
 #!/bin/sh -eux
 
-#docker pull ghcr.io/rekgrpth/pgadmin.docker
+docker pull ghcr.io/rekgrpth/pgadmin.docker
 docker volume create pgadmin
 docker network create --attachable --opt com.docker.network.bridge.name=docker docker || echo $?
 docker stop pgadmin || echo $?
