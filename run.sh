@@ -1,22 +1,23 @@
 #!/bin/sh -eux
 
-docker pull ghcr.io/rekgrpth/pgadmin.docker
+#docker pull ghcr.io/rekgrpth/pgadmin.docker
 docker volume create pgadmin
 docker network create --attachable --opt com.docker.network.bridge.name=docker docker || echo $?
 docker stop pgadmin || echo $?
 docker rm pgadmin || echo $?
+export PGADMIN="$(docker volume inspect --format "{{ .Mountpoint }}" pgadmin)"
+mkdir -p "$PGADMIN/log"
 docker run \
     --detach \
-    --env GROUP_ID=$(id -g) \
     --env LANG=ru_RU.UTF-8 \
+    --env PGADMIN_DEFAULT_EMAIL=container@pgadmin.org \
+    --env PGADMIN_DEFAULT_PASSWORD=Conta1ner \
     --env TZ=Asia/Yekaterinburg \
-    --env USER_ID=$(id -u) \
     --hostname pgadmin \
-    --mount type=bind,source=/etc/certs,destination=/etc/certs,readonly \
+    --mount type=bind,source="$PGADMIN"/log,destination=/var/log/pgadmin \
     --mount type=bind,source=/run/postgresql,destination=/run/postgresql \
-    --mount type=volume,source=pgadmin,destination=/home \
+    --mount type=volume,source=pgadmin,destination=/var/lib/pgadmin \
     --name pgadmin \
     --network name=docker \
-    --publish target=8443,published=8443,mode=host \
     --restart always \
-    ghcr.io/rekgrpth/pgadmin.docker gunicorn --threads "$(nproc)" --bind [::]:8443 --keyfile /etc/certs/server.key --certfile /etc/certs/server.crt --ca-certs /etc/certs/server.ca pgAdmin4:app
+    ghcr.io/rekgrpth/pgadmin.docker
